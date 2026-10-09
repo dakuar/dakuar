@@ -12,7 +12,7 @@
         null,
         ["Languages.Programming", "Python, C++, Rust"],
         ["Languages.Stack", "React, Vite, Node.js"],
-        ["Languages.Real", "Español, English, Chinese"],
+        ["Languages.Real", "Spanish, English, Chinese"],
         null,
         ["Tools.Python", "uv, Ruff, Pyrefly, pytest, pre-commit"],
         ["Tools.C++", "Bazel, ROOT"],
@@ -22,7 +22,7 @@
         ["Quantum", "Qiskit"],
         null,
         ["Hobbies","Building Gundams, Reading Manga"],
-        ["Hobbies.Software", "AI agent development"]
+        ["Hobbies.Software", "AI Agent Development"]
       ]
     }
   ]
