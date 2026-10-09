@@ -1,0 +1,29 @@
+{
+  "login": "dakuar",
+  "uptime_since": "2026-09-20",
+  "sections": [
+    {
+      "rows": [
+        ["OS", "Windows 11"],
+        ["Uptime", "{uptime}"],
+        ["Host", "github.com"],
+        ["Shell", "Fish"],
+        ["IDE", "Claude Code"],
+        null,
+        ["Languages.Programming", "Python, C++, Rust"],
+        ["Languages.Stack", "React, Vite, Node.js"],
+        ["Languages.Real", "Español, English, Chinese"],
+        null,
+        ["Tools.Python", "uv, Ruff, Pyrefly, pytest, pre-commit"],
+        ["Tools.C++", "Bazel, ROOT"],
+        ["Tools.Rust", "Cargo"],
+        null,
+        ["ML", "PyTorch, pandas, Mamba (SSM)"],
+        ["Quantum", "Qiskit"],
+        null,
+        ["Hobbies","Building Gundams, Reading Manga"],
+        ["Hobbies.Software", "AI agent development"]
+      ]
+    }
+  ]
+}
