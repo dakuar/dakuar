@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="975" height="260" viewBox="0 0 975 260" role="img" aria-labelledby="banner-title">
+  <!--
+    Control SMIL de la fase 1. Marca visual: triángulo que se desplaza y rombo que late.
+    SMIL no se detiene con prefers-reduced-motion. Pose dibujada en el instante inicial:
+    triángulo en el contorno izquierdo y rombo opaco.
+  -->
+  <title id="banner-title">Control SMIL: triángulo que se desplaza y rombo que late, para comparar con el banner CSS. Enlace a dakuar.com</title>
+  <style>
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; }
+    }
+  </style>
+  <rect x="0" y="0" width="975" height="260" rx="15" fill="#161b22"/>
+  <rect x="28" y="28" width="24" height="24" fill="#9aa8b5"/>
+  <polygon points="180,84 232,176 128,176" fill="none" stroke="#7fb0d9" stroke-width="3"/>
+  <polygon points="660,84 712,176 608,176" fill="none" stroke="#7fb0d9" stroke-width="3" stroke-dasharray="6 6"/>
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;480 0;0 0" keyTimes="0;0.5;1" dur="6s" repeatCount="indefinite" calcMode="linear"/>
+    <polygon points="180,84 232,176 128,176" fill="#9aa8b5"/>
+  </g>
+  <polygon points="840,90 890,140 840,190 790,140" fill="#e9d3b6">
+    <animate attributeName="opacity" values="1;0.08;1" keyTimes="0;0.5;1" dur="3s" repeatCount="indefinite" calcMode="linear"/>
+  </polygon>
+</svg>
