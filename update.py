@@ -8,6 +8,8 @@ import datetime as dt
 import json
 import os
 import sys
+import time
+import urllib.error
 import urllib.request
 from pathlib import Path
 from xml.sax.saxutils import escape
@@ -15,10 +17,15 @@ from xml.sax.saxutils import escape
 ROOT = Path(__file__).parent
 API = "https://api.github.com/graphql"
 
+# Un intento y tres reintentos. Las esperas son 1 s, 2 s y 4 s.
+GRAPHQL_ATTEMPTS = 4
+GRAPHQL_REQUESTS = 0
+
 # Medidas en caracteres. STATS_LEFT + 3 + STATS_RIGHT debe ser igual a WIDTH.
+# La columna derecha cabe «Commits (12m)» y un número de hasta 6 dígitos.
 WIDTH = 58
-STATS_LEFT = 34
-STATS_RIGHT = 21
+STATS_LEFT = 31
+STATS_RIGHT = 24
 
 # Medidas en píxeles. Los valores de ART_* son múltiplos de DOT_PITCH.
 CHAR_W = 9.6
@@ -56,36 +63,13 @@ THEMES = {
 }
 
 USER_QUERY = """
-query($login: String!, $after: String) {
+query($login: String!) {
   user(login: $login) {
-    id
-    followers { totalCount }
-    repositoriesContributedTo(
-      first: 100
-      includeUserRepositories: false
-      contributionTypes: [COMMIT, PULL_REQUEST, PULL_REQUEST_REVIEW, REPOSITORY]
-    ) { totalCount nodes { nameWithOwner } }
-    repositories(first: 100, after: $after, ownerAffiliations: OWNER) {
+    repositories(ownerAffiliations: OWNER) {
       totalCount
-      pageInfo { hasNextPage endCursor }
-      nodes { nameWithOwner isFork stargazerCount }
     }
-  }
-}
-"""
-
-HISTORY_QUERY = """
-query($owner: String!, $name: String!, $id: ID!, $after: String) {
-  repository(owner: $owner, name: $name) {
-    defaultBranchRef {
-      target {
-        ... on Commit {
-          history(first: 100, after: $after, author: {id: $id}) {
-            pageInfo { hasNextPage endCursor }
-            nodes { additions deletions }
-          }
-        }
-      }
+    contributionsCollection {
+      totalCommitContributions
     }
   }
 }
@@ -93,84 +77,48 @@ query($owner: String!, $name: String!, $id: ID!, $after: String) {
 
 
 def graphql(query, variables, token):
-    request = urllib.request.Request(
-        API,
-        data=json.dumps({"query": query, "variables": variables}).encode(),
-        headers={"Authorization": f"bearer {token}", "User-Agent": "profile-readme"},
-    )
-    with urllib.request.urlopen(request, timeout=30) as response:
-        body = json.load(response)
-    if body.get("errors"):
-        sys.exit(f"La API de GitHub devolvió un error: {body['errors'][0]['message']}")
-    return body["data"]
+    """Ejecuta una query. Ante un 5xx o un fallo de red reintenta 3 veces.
+
+    Las esperas son 1 s, 2 s y 4 s. Un 4xx se propaga sin reintentar.
+    """
+    global GRAPHQL_REQUESTS
+    payload = json.dumps({"query": query, "variables": variables}).encode()
+    headers = {"Authorization": f"bearer {token}", "User-Agent": "profile-readme"}
+    last_error = None
+    for attempt in range(GRAPHQL_ATTEMPTS):
+        GRAPHQL_REQUESTS += 1
+        request = urllib.request.Request(API, data=payload, headers=headers)
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                body = json.load(response)
+        except urllib.error.HTTPError as error:
+            error.close()
+            if 400 <= error.code < 500:
+                raise
+            last_error = error
+        except (urllib.error.URLError, TimeoutError, OSError) as error:
+            last_error = error
+        else:
+            if body.get("errors"):
+                sys.exit(f"La API de GitHub devolvió un error: {body['errors'][0]['message']}")
+            return body["data"]
+        if attempt + 1 < GRAPHQL_ATTEMPTS:
+            time.sleep(2**attempt)
+    raise last_error
 
 
 def fetch_stats(login, token):
-    owned = []
-    after = None
-    while True:
-        user = graphql(USER_QUERY, {"login": login, "after": after}, token)["user"]
-        if user is None:
-            sys.exit(f"El usuario {login} no existe.")
-        page = user["repositories"]
-        owned += page["nodes"]
-        if not page["pageInfo"]["hasNextPage"]:
-            break
-        after = page["pageInfo"]["endCursor"]
-
-    # Un fork contiene el historial del proyecto original. No lo cuentes como código propio.
-    names = [repo["nameWithOwner"] for repo in owned if not repo["isFork"]]
-    names += [repo["nameWithOwner"] for repo in user["repositoriesContributedTo"]["nodes"]]
-
-    commits = additions = deletions = 0
-    for name in names:
-        owner, repo_name = name.split("/")
-        after = None
-        while True:
-            variables = {"owner": owner, "name": repo_name, "id": user["id"], "after": after}
-            repo = graphql(HISTORY_QUERY, variables, token)["repository"]
-            if repo is None or repo["defaultBranchRef"] is None:
-                break
-            history = repo["defaultBranchRef"]["target"]["history"]
-            commits += len(history["nodes"])
-            additions += sum(node["additions"] for node in history["nodes"])
-            deletions += sum(node["deletions"] for node in history["nodes"])
-            if not history["pageInfo"]["hasNextPage"]:
-                break
-            after = history["pageInfo"]["endCursor"]
-
+    user = graphql(USER_QUERY, {"login": login}, token)["user"]
+    if user is None:
+        sys.exit(f"El usuario {login} no existe.")
+    # Con scope read:user, totalCommitContributions ya incluye los commits
+    # de repos privados que el token puede leer. No se suma
+    # restrictedContributionsCount: son contribuciones de cualquier tipo
+    # que el token no puede abrir, no un conteo de commits.
     return {
         "repos": user["repositories"]["totalCount"],
-        "contributed": user["repositoriesContributedTo"]["totalCount"],
-        "stars": sum(repo["stargazerCount"] for repo in owned),
-        "followers": user["followers"]["totalCount"],
-        "commits": commits,
-        "additions": additions,
-        "deletions": deletions,
+        "commits": user["contributionsCollection"]["totalCommitContributions"],
     }
-
-
-def uptime(since, today):
-    years = today.year - since.year
-    months = today.month - since.month
-    days = today.day - since.day
-    if days < 0:
-        months -= 1
-        last_day_of_previous_month = today.replace(day=1) - dt.timedelta(days=1)
-        days += last_day_of_previous_month.day
-    if months < 0:
-        years -= 1
-        months += 12
-    parts = [(years, "year"), (months, "month"), (days, "day")]
-    shown = [f"{n} {unit}{'' if n == 1 else 's'}" for n, unit in parts if n]
-    return ", ".join(shown) or "0 days"
-
-
-def short(number):
-    for limit, suffix in ((1_000_000, "M"), (1_000, "k")):
-        if abs(number) >= limit:
-            return f"{number / limit:.1f}{suffix}"
-    return str(number)
 
 
 # Una línea es una lista de segmentos (clase CSS, texto). None es una línea vacía.
@@ -190,29 +138,15 @@ def rule(title):
 
 
 def stats_lines(stats):
-    repos = f"{stats['repos']} {{Contributed: {stats['contributed']}}}"
     separator = [("text", " | ")]
-    tail = [
-        ("value", short(stats["additions"] - stats["deletions"])),
-        ("text", " ( "),
-        ("add", short(stats["additions"]) + "++"),
-        ("text", ", "),
-        ("del", short(stats["deletions"]) + "--"),
-        ("text", " )"),
-    ]
-    key = "Lines of Code on GitHub"
-    dots = "." * max(1, WIDTH - len(key) - 5 - sum(len(text) for _, text in tail))
     return [
-        row("Repos", repos, STATS_LEFT) + separator + row("Stars", str(stats["stars"]), STATS_RIGHT, ""),
-        row("Commits", str(stats["commits"]), STATS_LEFT)
+        row("Repos", str(stats["repos"]), STATS_LEFT)
         + separator
-        + row("Followers", str(stats["followers"]), STATS_RIGHT, ""),
-        [("cc", ". "), ("key", key), ("cc", f": {dots} ")] + tail,
+        + row("Commits (12m)", str(stats["commits"]), STATS_RIGHT, ""),
     ]
 
 
-def build_lines(profile, stats, today):
-    values = {"uptime": uptime(dt.date.fromisoformat(profile["uptime_since"]), today)}
+def build_lines(profile, stats):
     lines = [rule(f"{profile['login']}@github")]
     for section in profile["sections"]:
         if section.get("title"):
@@ -220,8 +154,12 @@ def build_lines(profile, stats, today):
         for entry in section["rows"]:
             if entry is None:
                 lines.append([("cc", ".")])
-            else:
-                lines.append(row(entry[0], entry[1].format(**values)))
+                continue
+            lines.append(row(entry[0], entry[1]))
+            if entry[0] == "Web":
+                email = profile.get("email")
+                if isinstance(email, str) and email.strip():
+                    lines.append(row("Email", email.strip()))
     return lines + [None, rule("- GitHub Stats")] + stats_lines(stats)
 
 
@@ -266,17 +204,20 @@ def render(lines, theme, stamp):
 
 
 def main():
+    global GRAPHQL_REQUESTS
+    GRAPHQL_REQUESTS = 0
     token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
     if not token:
         sys.exit("Falta el token. Define la variable GH_TOKEN.")
     profile = json.loads((ROOT / "profile.json").read_text(encoding="utf-8"))
     now = dt.datetime.now(dt.timezone.utc)
     stats = fetch_stats(profile["login"], token)
-    lines = build_lines(profile, stats, now.date())
+    lines = build_lines(profile, stats)
     stamp = f"Updated {now:%b} {now.day}, {now.year} {now:%H:%M} UTC"
     for filename, theme in THEMES.items():
         (ROOT / filename).write_text(render(lines, theme, stamp), encoding="utf-8", newline="\n")
     print(json.dumps(stats))
+    print(f"graphql requests: {GRAPHQL_REQUESTS}")
 
 
 if __name__ == "__main__":
