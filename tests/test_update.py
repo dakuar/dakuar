@@ -1,7 +1,9 @@
-"""Reintentos de graphql(), email obligatorio y alto de la ficha."""
+"""Reintentos de graphql(), historial de commits y email obligatorio."""
 
+import datetime as dt
 import io
 import json
+import math
 import os
 import sys
 import tempfile
@@ -147,24 +149,24 @@ class CardTest(unittest.TestCase):
         self.assertEqual(stripped(dark), stripped(light))
         self.assertNotEqual(dark, light)
 
-    def test_fetch_stats_is_one_request(self):
-        payload = {
-            "data": {
-                "user": {
-                    "repositories": {"totalCount": 7},
-                    "contributionsCollection": {"totalCommitContributions": 11},
-                }
-            }
-        }
-        update.GRAPHQL_REQUESTS = 0
-        with mock.patch("update.urllib.request.urlopen", return_value=Response(payload)) as urlopen:
-            stats = update.fetch_stats("dakuar", "x")
-        self.assertEqual(urlopen.call_count, 1)
-        self.assertEqual(update.GRAPHQL_REQUESTS, 1)
-        self.assertEqual(stats, {"repos": 7, "commits": 11})
-        self.assertNotIn("privacy", update.USER_QUERY)
+    def test_query_shape(self):
+        src = (ROOT / "update.py").read_text(encoding="utf-8")
+        for word in (
+            "uptime",
+            "stargazerCount",
+            "followers",
+            "repositoriesContributedTo",
+            "contributionsCollection",
+            "additions",
+            "deletions",
+            "privacy: PUBLIC",
+        ):
+            self.assertNotIn(word, src)
         self.assertIn("ownerAffiliations: OWNER", update.USER_QUERY)
-        self.assertIn("totalCommitContributions", update.USER_QUERY)
+        self.assertIn("history(author: {id: $author}, since: $since)", update.USER_QUERY)
+        self.assertIn("totalCount", update.USER_QUERY)
+        self.assertNotIn("history(first:", update.USER_QUERY)
+        self.assertNotIn("isFork: false", update.USER_QUERY)
         self.assertFalse(hasattr(update, "HISTORY_QUERY"))
         self.assertFalse(hasattr(update, "uptime"))
 
@@ -235,6 +237,88 @@ class FailureLeavesSvgTest(unittest.TestCase):
                 urlopen, _sleep, text = self.run_main(profile, http_error(500))
                 urlopen.assert_not_called()
                 self.assertIn("email", text.lower())
+
+    def test_second_page_errors_leave_svgs(self):
+        pages = [
+            Response(user_id()),
+            Response(repo_page([repo_node(2)], 2, True)),
+            Response({"data": {"user": None}, "errors": [{"message": "repo oculto"}]}),
+        ]
+        urlopen, sleep, _text = self.run_main(profile_from_disk(), pages)
+        self.assertEqual(urlopen.call_count, 3)
+        sleep.assert_not_called()
+
+
+def user_id(value="U_1"):
+    return {"data": {"user": {"id": value}}}
+
+
+def repo_node(count=1, fork=False, empty=False):
+    if empty:
+        return {"isFork": fork, "defaultBranchRef": None}
+    return {
+        "isFork": fork,
+        "defaultBranchRef": {"target": {"history": {"totalCount": count}}},
+    }
+
+
+def repo_page(nodes, total, has_next, cursor="next"):
+    return {
+        "data": {
+            "user": {
+                "repositories": {
+                    "totalCount": total,
+                    "pageInfo": {"hasNextPage": has_next, "endCursor": cursor},
+                    "nodes": nodes,
+                }
+            }
+        }
+    }
+
+
+def request_payload(call):
+    return json.loads(call.args[0].data.decode())
+
+
+class HistoryStatsTest(unittest.TestCase):
+    def test_sums_pages_skips_forks_and_empty_repos(self):
+        now = dt.datetime(2026, 11, 18, 12, 0, tzinfo=dt.timezone.utc)
+        pages = [
+            Response(user_id()),
+            Response(
+                repo_page(
+                    [repo_node(3), repo_node(9, fork=True), repo_node(empty=True)],
+                    total=4,
+                    has_next=True,
+                )
+            ),
+            Response(repo_page([repo_node(5)], total=4, has_next=False)),
+        ]
+        update.GRAPHQL_REQUESTS = 0
+        with mock.patch("update.urllib.request.urlopen", side_effect=pages) as urlopen:
+            stats = update.fetch_stats("dakuar", "x", now=now)
+        self.assertEqual(stats, {"repos": 4, "commits": 8})
+        self.assertEqual(urlopen.call_count, 3)
+        self.assertEqual(update.GRAPHQL_REQUESTS, 3)
+        page = request_payload(urlopen.call_args_list[1])
+        self.assertEqual(page["variables"]["author"], "U_1")
+        self.assertEqual(page["variables"]["since"], "2025-11-18T12:00:00Z")
+        self.assertNotIn("author", request_payload(urlopen.call_args_list[0])["variables"])
+
+    def test_request_budget_is_one_page_per_hundred_repos(self):
+        total = 150
+        first = [repo_node(1) for _ in range(100)]
+        second = [repo_node(1) for _ in range(49)] + [repo_node(40, fork=True)]
+        pages = [
+            Response(user_id()),
+            Response(repo_page(first, total, True, "p2")),
+            Response(repo_page(second, total, False)),
+        ]
+        with mock.patch("update.urllib.request.urlopen", side_effect=pages) as urlopen:
+            stats = update.fetch_stats("dakuar", "x")
+        self.assertEqual(stats["repos"], total)
+        self.assertEqual(stats["commits"], 149)
+        self.assertEqual(urlopen.call_count, math.ceil(total / 100) + 1)
 
 
 if __name__ == "__main__":

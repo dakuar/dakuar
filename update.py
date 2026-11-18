@@ -62,14 +62,34 @@ THEMES = {
     },
 }
 
-USER_QUERY = """
+# El id no puede usarse como argumento en la misma selección, así que va aparte.
+USER_ID_QUERY = """
 query($login: String!) {
   user(login: $login) {
-    repositories(ownerAffiliations: OWNER) {
+    id
+  }
+}
+"""
+
+# Una página de repos propios. history.totalCount no pide nodos ni se pagina.
+USER_QUERY = """
+query($login: String!, $after: String, $author: ID!, $since: GitTimestamp!) {
+  user(login: $login) {
+    repositories(first: 100, after: $after, ownerAffiliations: OWNER) {
       totalCount
-    }
-    contributionsCollection {
-      totalCommitContributions
+      pageInfo { hasNextPage endCursor }
+      nodes {
+        isFork
+        defaultBranchRef {
+          target {
+            ... on Commit {
+              history(author: {id: $author}, since: $since) {
+                totalCount
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -107,18 +127,51 @@ def graphql(query, variables, token):
     raise last_error
 
 
-def fetch_stats(login, token):
-    user = graphql(USER_QUERY, {"login": login}, token)["user"]
+def commit_since(now):
+    return (now - dt.timedelta(days=365)).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def history_count(repo):
+    # Un fork no es código propio. Un repo vacío no tiene rama por defecto.
+    if not repo or repo.get("isFork"):
+        return 0
+    ref = repo.get("defaultBranchRef")
+    target = ref.get("target") if ref else None
+    history = target.get("history") if target else None
+    if not history:
+        return 0
+    return history["totalCount"]
+
+
+def fetch_stats(login, token, now=None):
+    now = now or dt.datetime.now(dt.timezone.utc)
+    since = commit_since(now)
+    user = graphql(USER_ID_QUERY, {"login": login}, token)["user"]
     if user is None:
         sys.exit(f"El usuario {login} no existe.")
-    # Con scope read:user, totalCommitContributions ya incluye los commits
-    # de repos privados que el token puede leer. No se suma
-    # restrictedContributionsCount: son contribuciones de cualquier tipo
-    # que el token no puede abrir, no un conteo de commits.
-    return {
-        "repos": user["repositories"]["totalCount"],
-        "commits": user["contributionsCollection"]["totalCommitContributions"],
-    }
+    # Commits (12m): commits del autor en la rama por defecto de cada repo
+    # propio que no es fork, en los últimos 365 días. Los privados entran
+    # cuando el token puede leer el repo. Repos sigue contando los forks.
+    author = user["id"]
+    commits = 0
+    repos = None
+    after = None
+    while True:
+        page_user = graphql(
+            USER_QUERY,
+            {"login": login, "after": after, "author": author, "since": since},
+            token,
+        )["user"]
+        if page_user is None:
+            sys.exit(f"El usuario {login} no existe.")
+        page = page_user["repositories"]
+        repos = page["totalCount"]
+        for repo in page["nodes"] or []:
+            commits += history_count(repo)
+        if not page["pageInfo"]["hasNextPage"]:
+            break
+        after = page["pageInfo"]["endCursor"]
+    return {"repos": repos, "commits": commits}
 
 
 # Una línea es una lista de segmentos (clase CSS, texto). None es una línea vacía.
