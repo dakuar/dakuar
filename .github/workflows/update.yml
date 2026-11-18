@@ -2,23 +2,35 @@ name: Update profile
 
 on:
   schedule:
-    - cron: "0 6 * * *"
+    - cron: "17 */6 * * *"
   workflow_dispatch:
   push:
     branches: [main]
     paths: [profile.json, update.py]
+
+concurrency:
+  group: update-profile
+  cancel-in-progress: false
 
 permissions:
   contents: write
 
 jobs:
   update:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
+      - name: Warn when PROFILE_TOKEN is empty
+        env:
+          PROFILE_TOKEN: ${{ secrets.PROFILE_TOKEN }}
+        run: |
+          if [ -z "$PROFILE_TOKEN" ]; then
+            echo "::warning::PROFILE_TOKEN is empty"
+          fi
       - run: python update.py
         env:
           GH_TOKEN: ${{ secrets.PROFILE_TOKEN || secrets.GITHUB_TOKEN }}
@@ -28,4 +40,4 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add dark_mode.svg light_mode.svg
           git diff --cached --quiet || git commit -m "Update profile stats"
-          git push
+          git pull --rebase origin main && git push
