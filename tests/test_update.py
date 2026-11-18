@@ -1,8 +1,10 @@
-"""Reintentos de graphql() y alto de la ficha, con y sin correo."""
+"""Reintentos de graphql(), email obligatorio y alto de la ficha."""
 
 import io
 import json
+import os
 import sys
+import tempfile
 import unittest
 import urllib.error
 from pathlib import Path
@@ -64,16 +66,16 @@ class GraphqlRetryTest(unittest.TestCase):
         update.GRAPHQL_REQUESTS = 0
 
     def test_retries_three_times_on_5xx(self):
-        errors = [http_error(500), http_error(502), http_error(503), http_error(504)]
+        errors = [http_error(500), http_error(502), http_error(503)]
         with mock.patch("update.time.sleep") as sleep, mock.patch(
             "update.urllib.request.urlopen", side_effect=errors
         ) as urlopen:
             with self.assertRaises(urllib.error.HTTPError) as caught:
                 update.graphql("query { x }", {}, "x")
-        self.assertEqual(caught.exception.code, 504)
-        self.assertEqual(urlopen.call_count, 4)
-        self.assertEqual(update.GRAPHQL_REQUESTS, 4)
-        self.assertEqual([call.args[0] for call in sleep.call_args_list], [1, 2, 4])
+        self.assertEqual(caught.exception.code, 503)
+        self.assertEqual(urlopen.call_count, 3)
+        self.assertEqual(update.GRAPHQL_REQUESTS, 3)
+        self.assertEqual([call.args[0] for call in sleep.call_args_list], [1, 2])
 
     def test_5xx_then_success_uses_backoff(self):
         ok = Response({"data": {"user": {"id": "1"}}})
@@ -115,29 +117,16 @@ class CardTest(unittest.TestCase):
     def test_height_comes_from_line_count(self):
         profile = profile_from_disk()
         self.assertEqual(profile["email"], "me@dakuar.com")
-        cases = (
-            (profile, 14, 350, LINES_WITH_EMAIL),
-            (dict(profile, email=None), 13, 330, None),
-            (dict(profile, email=""), 13, 330, None),
-            (dict(profile, email="   "), 13, 330, None),
-        )
-        missing = dict(profile)
-        missing.pop("email")
-        cases = cases + ((missing, 13, 330, None),)
-        stamp = "Updated Nov 18, 2026 00:00 UTC"
-        for current, count, height, expected in cases:
-            lines = update.build_lines(current, STATS)
-            self.assertEqual(len(lines), count)
-            self.assertEqual(update.TEXT_Y + len(lines) * update.LINE_H + 25, height)
-            svg = update.render(lines, update.THEMES["dark_mode.svg"], stamp)
-            self.assertIn(f'width="{update.SVG_W}"', svg)
-            self.assertIn(f'height="{height}"', svg)
-            self.assertIn(f'viewBox="0 0 {update.SVG_W} {height}"', svg)
-            self.assertIn('textLength="557"', svg)
-            if expected is not None:
-                self.assertEqual(joined(lines), expected)
-            else:
-                self.assertNotIn("Email", svg)
+        lines = update.build_lines(profile, STATS)
+        self.assertEqual(len(lines), 14)
+        height = update.TEXT_Y + len(lines) * update.LINE_H + 25
+        self.assertEqual(height, 350)
+        self.assertEqual(joined(lines), LINES_WITH_EMAIL)
+        svg = update.render(lines, update.THEMES["dark_mode.svg"], "Updated Nov 18, 2026 00:00 UTC")
+        self.assertIn(f'width="{update.SVG_W}"', svg)
+        self.assertIn(f'height="{height}"', svg)
+        self.assertIn(f'viewBox="0 0 {update.SVG_W} {height}"', svg)
+        self.assertIn('textLength="557"', svg)
 
     def test_commit_number_fits_the_right_column(self):
         lines = update.build_lines(profile_from_disk(), {"repos": 12, "commits": 100000})
@@ -178,6 +167,57 @@ class CardTest(unittest.TestCase):
         self.assertIn("totalCommitContributions", update.USER_QUERY)
         self.assertFalse(hasattr(update, "HISTORY_QUERY"))
         self.assertFalse(hasattr(update, "uptime"))
+
+
+class FailureLeavesSvgTest(unittest.TestCase):
+    def run_main(self, profile, side_effect):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        root = Path(tmp.name)
+        (root / "profile.json").write_text(json.dumps(profile), encoding="utf-8")
+        dark = root / "dark_mode.svg"
+        light = root / "light_mode.svg"
+        dark.write_text("OLD DARK", encoding="utf-8")
+        light.write_text("OLD LIGHT", encoding="utf-8")
+        with mock.patch.object(update, "ROOT", root), mock.patch.dict(
+            os.environ, {"GH_TOKEN": "x"}
+        ), mock.patch("update.time.sleep") as sleep, mock.patch(
+            "update.urllib.request.urlopen", side_effect=side_effect
+        ) as urlopen:
+            with self.assertRaises(SystemExit) as caught:
+                update.main()
+        self.assertNotEqual(caught.exception.code, 0)
+        self.assertEqual(dark.read_text(encoding="utf-8"), "OLD DARK")
+        self.assertEqual(light.read_text(encoding="utf-8"), "OLD LIGHT")
+        return urlopen, sleep
+
+    def test_429_is_not_retried_and_svg_stay(self):
+        urlopen, sleep = self.run_main(profile_from_disk(), http_error(429))
+        self.assertEqual(urlopen.call_count, 1)
+        sleep.assert_not_called()
+
+    def test_5xx_gives_up_after_three_attempts_and_svg_stay(self):
+        errors = [http_error(500), http_error(502), http_error(503)]
+        urlopen, sleep = self.run_main(profile_from_disk(), errors)
+        self.assertEqual(urlopen.call_count, 3)
+        self.assertEqual([call.args[0] for call in sleep.call_args_list], [1, 2])
+
+    def test_graphql_errors_exit_without_retry_or_writing(self):
+        body = Response({"errors": [{"message": "nope"}]})
+        urlopen, sleep = self.run_main(profile_from_disk(), [body])
+        self.assertEqual(urlopen.call_count, 1)
+        sleep.assert_not_called()
+
+    def test_missing_email_exits_without_writing_svg(self):
+        for email in (None, "", "   "):
+            with self.subTest(email=email):
+                profile = profile_from_disk()
+                if email is None:
+                    profile.pop("email")
+                else:
+                    profile["email"] = email
+                urlopen, _sleep = self.run_main(profile, http_error(500))
+                urlopen.assert_not_called()
 
 
 if __name__ == "__main__":
