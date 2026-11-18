@@ -17,8 +17,8 @@ from xml.sax.saxutils import escape
 ROOT = Path(__file__).parent
 API = "https://api.github.com/graphql"
 
-# Tres intentos ante un 5xx o un fallo de red. Las esperas son 1 s y 2 s.
-GRAPHQL_ATTEMPTS = 3
+# Un intento y tres reintentos. Las esperas son 1 s, 2 s y 4 s.
+GRAPHQL_ATTEMPTS = 4
 GRAPHQL_REQUESTS = 0
 
 # Medidas en caracteres. STATS_LEFT + 3 + STATS_RIGHT debe ser igual a WIDTH.
@@ -76,17 +76,10 @@ query($login: String!) {
 """
 
 
-def die(message):
-    print(message, file=sys.stderr)
-    sys.exit(1)
-
-
 def graphql(query, variables, token):
-    """Ejecuta una query.
+    """Ejecuta una query. Ante un 5xx o un fallo de red reintenta 3 veces.
 
-    Un 5xx o un fallo de red se reintenta hasta 3 intentos, con esperas de
-    1 s y 2 s. Un 429, cualquier otro 4xx y una respuesta con errors salen
-    al momento, sin reintento.
+    Las esperas son 1 s, 2 s y 4 s. Un 4xx se propaga sin reintentar.
     """
     global GRAPHQL_REQUESTS
     payload = json.dumps({"query": query, "variables": variables}).encode()
@@ -100,7 +93,6 @@ def graphql(query, variables, token):
                 body = json.load(response)
         except urllib.error.HTTPError as error:
             error.close()
-            # 429 y el resto de los 4xx no se reintentan.
             if 400 <= error.code < 500:
                 raise
             last_error = error
@@ -108,7 +100,7 @@ def graphql(query, variables, token):
             last_error = error
         else:
             if body.get("errors"):
-                die(f"La API de GitHub devolvió un error: {body['errors'][0]['message']}")
+                sys.exit(f"La API de GitHub devolvió un error: {body['errors'][0]['message']}")
             return body["data"]
         if attempt + 1 < GRAPHQL_ATTEMPTS:
             time.sleep(2**attempt)
@@ -118,7 +110,7 @@ def graphql(query, variables, token):
 def fetch_stats(login, token):
     user = graphql(USER_QUERY, {"login": login}, token)["user"]
     if user is None:
-        die(f"El usuario {login} no existe.")
+        sys.exit(f"El usuario {login} no existe.")
     # Con scope read:user, totalCommitContributions ya incluye los commits
     # de repos privados que el token puede leer. No se suma
     # restrictedContributionsCount: son contribuciones de cualquier tipo
@@ -157,7 +149,8 @@ def stats_lines(stats):
 def require_email(profile):
     email = profile.get("email")
     if not isinstance(email, str) or not email.strip():
-        die("Falta el email en profile.json. No se escribe la ficha.")
+        print("Falta el email en profile.json. No se escribe la ficha.", file=sys.stderr)
+        sys.exit(1)
     return email.strip()
 
 
@@ -220,16 +213,14 @@ def render(lines, theme, stamp):
 def main():
     global GRAPHQL_REQUESTS
     GRAPHQL_REQUESTS = 0
-    profile = json.loads((ROOT / "profile.json").read_text(encoding="utf-8"))
-    require_email(profile)
     token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
     if not token:
-        die("Falta el token. Define la variable GH_TOKEN.")
-    try:
-        stats = fetch_stats(profile["login"], token)
-    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, OSError) as error:
-        die(f"La API de GitHub no respondió: {error}")
+        sys.exit("Falta el token. Define la variable GH_TOKEN.")
+    profile = json.loads((ROOT / "profile.json").read_text(encoding="utf-8"))
+    # Antes de la API y de escribir: sin email no hay ficha de 13 líneas.
+    require_email(profile)
     now = dt.datetime.now(dt.timezone.utc)
+    stats = fetch_stats(profile["login"], token)
     lines = build_lines(profile, stats)
     stamp = f"Updated {now:%b} {now.day}, {now.year} {now:%H:%M} UTC"
     for filename, theme in THEMES.items():
