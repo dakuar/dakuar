@@ -1,0 +1,622 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="975" height="260" viewBox="0 0 975 260" overflow="hidden">
+<!--
+IBM Plex Mono (weight 500) and Noto Sans JP (weight 600),
+both under the SIL Open Font License 1.1.
+Contours extracted once with fontTools. See banner/build.py.
+-->
+<style>.esc-tail,.esc-steam0,.esc-steam1,.esc-steam2{transform-box:view-box}.esc-tail{transform-origin:652.528px 87.16px;transform:rotate(0rad);animation:esc-tail 6s ease-in-out infinite}.esc-steam0{opacity:.7;transform:translate(564.5889px,67.032px);animation:esc-steam 6s linear infinite}.esc-steam1,.esc-steam2{opacity:0;transform:translate(564.536px,77.64px);animation:esc-steam 6s linear infinite}.esc-steam1{animation-delay:-1s}.esc-steam2{animation-delay:-2s}.esc-lids{opacity:0;animation:esc-blink 6s linear infinite}@keyframes esc-tail{0%,50%,100%{transform:rotate(0rad)}12.5%,62.5%{transform:rotate(.22rad)}37.5%,87.5%{transform:rotate(-.22rad)}}@keyframes esc-blink{0%,66.666%{opacity:0}66.75%,69%{opacity:1}69.084%,100%{opacity:0}}@keyframes esc-steam{0%{transform:translate(564.536px,77.64px);opacity:0}1.6667%{transform:translate(565.1179px,76.824px);opacity:0.175}3.3333%{transform:translate(565.6664px,76.008px);opacity:0.35}5%{transform:translate(566.1502px,75.192px);opacity:0.525}6.6667%{transform:translate(566.5414px,74.376px);opacity:0.7}8.3333%{transform:translate(566.8176px,73.56px);opacity:0.7}10%{transform:translate(566.9631px,72.744px);opacity:0.7}11.6667%{transform:translate(566.9694px,71.928px);opacity:0.7}13.3333%{transform:translate(566.8363px,71.112px);opacity:0.7}15%{transform:translate(566.5712px,70.296px);opacity:0.7}16.6667%{transform:translate(566.1895px,69.48px);opacity:0.7}18.3333%{transform:translate(565.7131px,68.664px);opacity:0.7}20%{transform:translate(565.1691px,67.848px);opacity:0.7}21.6667%{transform:translate(564.5889px,67.032px);opacity:0.7}23.3333%{transform:translate(564.0056px,66.216px);opacity:0.7}25%{transform:translate(563.4527px,65.4px);opacity:0.6417}26.6667%{transform:translate(562.9619px,64.584px);opacity:0.5833}28.3333%{transform:translate(562.5614px,63.768px);opacity:0.525}30%{transform:translate(562.2741px,62.952px);opacity:0.4667}31.6667%{transform:translate(562.1164px,62.136px);opacity:0.4083}33.3333%{transform:translate(562.0974px,61.32px);opacity:0.35}35%{transform:translate(562.2182px,60.504px);opacity:0.2917}36.6667%{transform:translate(562.4719px,59.688px);opacity:0.2333}38.3333%{transform:translate(562.8439px,58.872px);opacity:0.175}40%{transform:translate(563.3129px,58.056px);opacity:0.1167}41.6667%{transform:translate(563.852px,57.24px);opacity:0.0583}43.3333%{transform:translate(564.4303px,56.424px);opacity:0}50%{transform:translate(564.536px,77.64px);opacity:0}51.6667%{transform:translate(565.1179px,76.824px);opacity:0.175}53.3333%{transform:translate(565.6664px,76.008px);opacity:0.35}55%{transform:translate(566.1502px,75.192px);opacity:0.525}56.6667%{transform:translate(566.5414px,74.376px);opacity:0.7}58.3333%{transform:translate(566.8176px,73.56px);opacity:0.7}60%{transform:translate(566.9631px,72.744px);opacity:0.7}61.6667%{transform:translate(566.9694px,71.928px);opacity:0.7}63.3333%{transform:translate(566.8363px,71.112px);opacity:0.7}65%{transform:translate(566.5712px,70.296px);opacity:0.7}66.6667%{transform:translate(566.1895px,69.48px);opacity:0.7}68.3333%{transform:translate(565.7131px,68.664px);opacity:0.7}70%{transform:translate(565.1691px,67.848px);opacity:0.7}71.6667%{transform:translate(564.5889px,67.032px);opacity:0.7}73.3333%{transform:translate(564.0056px,66.216px);opacity:0.7}75%{transform:translate(563.4527px,65.4px);opacity:0.6417}76.6667%{transform:translate(562.9619px,64.584px);opacity:0.5833}78.3333%{transform:translate(562.5614px,63.768px);opacity:0.525}80%{transform:translate(562.2741px,62.952px);opacity:0.4667}81.6667%{transform:translate(562.1164px,62.136px);opacity:0.4083}83.3333%{transform:translate(562.0974px,61.32px);opacity:0.35}85%{transform:translate(562.2182px,60.504px);opacity:0.2917}86.6667%{transform:translate(562.4719px,59.688px);opacity:0.2333}88.3333%{transform:translate(562.8439px,58.872px);opacity:0.175}90%{transform:translate(563.3129px,58.056px);opacity:0.1167}91.6667%{transform:translate(563.852px,57.24px);opacity:0.0583}93.3333%{transform:translate(564.4303px,56.424px);opacity:0}100%{transform:translate(564.536px,77.64px);opacity:0}}@media (prefers-reduced-motion: reduce){.esc-tail,.esc-steam0,.esc-steam1,.esc-steam2,.esc-lids{animation:none!important}}</style>
+<defs>
+<path id="esc-pl-slash" d="M83 138L420 -760L517 -760L180 138Z"/>
+<path id="esc-pl-backslash" d="M420 138L83 -760L180 -760L517 138Z"/>
+<path id="esc-pl-bar" d="M253 138L253 -760L347 -760L347 138Z"/>
+<path id="esc-pl-under" d="M60 179L60 85L540 85L540 179Z"/>
+<path id="esc-pl-hyphen" d="M149 -250L149 -359L451 -359L451 -250Z"/>
+<path id="esc-pl-equal" d="M62 -367L62 -456L538 -456L538 -367ZM62 -155L62 -244L538 -244L538 -155Z"/>
+<path id="esc-pl-hash" d="M135 -207L13 -207L13 -291L150 -291L170 -407L50 -407L50 -491L185 -491L222 -698L313 -698L190 0L99 0ZM410 -698L501 -698L465 -491L587 -491L587 -407L450 -407L430 -291L550 -291L550 -207L415 -207L378 0L287 0Z"/>
+<path id="esc-pl-plus" d="M251 -62L251 -261L62 -261L62 -350L251 -350L251 -549L349 -549L349 -350L538 -350L538 -261L349 -261L349 -62Z"/>
+<path id="esc-pl-dot" d="M300 10Q252 10 232 -10Q213 -30 213 -59L213 -85Q213 -114 232 -134Q252 -154 300 -154Q348 -154 368 -134Q387 -114 387 -85L387 -59Q387 -30 368 -10Q348 10 300 10Z"/>
+<path id="esc-pl-comma" d="M244 -152L399 -152L275 145L190 145Z"/>
+<path id="esc-pl-quot" d="M152 -442L152 -740L252 -740L252 -442ZM349 -442L349 -740L449 -740L449 -442Z"/>
+<path id="esc-no-ff0f" d="M937 -850L970 -817L63 90L30 57Z"/>
+<path id="esc-no-6c" d="M209 14Q163 14 135 -6Q107 -25 95 -60Q83 -96 83 -143L83 -797L214 -797L214 -137Q214 -113 223 -104Q232 -94 242 -94Q246 -94 250 -94Q254 -95 262 -96L278 2Q266 7 250 10Q233 14 209 14Z"/>
+<path id="esc-no-3001" d="M260 65Q230 27 192 -12Q155 -52 117 -90Q79 -127 43 -156L137 -237Q172 -208 213 -169Q254 -130 292 -90Q329 -50 356 -17Z"/>
+<path id="esc-no-ff9f" d="M73 -726Q73 -699 87 -679Q101 -659 122 -659Q142 -659 156 -679Q171 -699 171 -726Q171 -753 156 -773Q142 -793 121 -793Q101 -793 87 -773Q73 -753 73 -726ZM23 -726Q23 -761 36 -790Q50 -820 72 -837Q95 -854 122 -854Q149 -854 172 -837Q194 -820 208 -790Q221 -761 221 -726Q221 -691 208 -662Q194 -632 172 -615Q149 -598 122 -598Q95 -598 72 -615Q50 -632 36 -662Q23 -691 23 -726Z"/>
+<path id="esc-no-28" d="M236 200Q166 85 126 -40Q87 -165 87 -314Q87 -463 126 -588Q166 -714 236 -829L317 -793Q254 -685 224 -562Q194 -438 194 -314Q194 -189 224 -66Q254 57 317 165Z"/>
+<path id="esc-no-30d5" d="M881 -665Q875 -652 870 -635Q865 -618 861 -602Q853 -564 840 -518Q827 -472 809 -422Q791 -373 766 -325Q742 -277 711 -236Q666 -177 607 -125Q548 -73 474 -32Q401 9 311 38L214 -69Q313 -93 385 -128Q457 -164 511 -209Q565 -254 605 -305Q639 -348 664 -400Q688 -452 704 -504Q720 -556 727 -600Q712 -600 676 -600Q640 -600 592 -600Q544 -600 492 -600Q439 -600 390 -600Q341 -600 303 -600Q265 -600 248 -600Q215 -600 184 -599Q154 -598 135 -596L135 -723Q150 -721 170 -719Q190 -717 211 -716Q232 -715 248 -715Q263 -715 293 -715Q323 -715 363 -715Q403 -715 448 -715Q492 -715 536 -715Q579 -715 618 -715Q656 -715 684 -715Q711 -715 722 -715Q736 -715 756 -716Q775 -717 793 -722Z"/>
+<path id="esc-no-3003" d="M492 -565L272 -117L203 -147L366 -620ZM796 -565L575 -117L507 -147L670 -620Z"/>
+<path id="esc-no-30fd" d="M372 -599Q406 -570 448 -530Q490 -490 535 -444Q580 -397 623 -349Q666 -301 704 -256Q741 -211 768 -174L659 -88Q626 -137 580 -196Q534 -254 480 -313Q427 -372 372 -426Q318 -479 269 -520Z"/>
+<path id="esc-no-300d" d="M357 90L30 90L30 -7L251 -7L251 -551L357 -551Z"/>
+<path id="esc-no-65e6" d="M60 -63L941 -63L941 43L60 43ZM297 -436L297 -283L705 -283L705 -436ZM297 -690L297 -540L705 -540L705 -690ZM190 -793L817 -793L817 -179L190 -179Z"/>
+<path id="esc-no-29" d="M131 200L49 165Q112 57 142 -66Q173 -189 173 -314Q173 -438 142 -562Q112 -685 49 -793L131 -829Q201 -714 240 -588Q280 -463 280 -314Q280 -165 240 -40Q201 85 131 200Z"/>
+<path id="esc-no-3b9" d="M216 14Q166 14 137 -6Q108 -25 96 -61Q83 -97 83 -146L83 -555L215 -555Q214 -486 212 -411Q209 -336 208 -266Q206 -196 206 -139Q206 -114 217 -104Q228 -94 249 -94Q256 -94 265 -96Q274 -97 282 -100L299 -3Q284 4 265 9Q246 14 216 14Z"/>
+<path id="esc-no-3057" d="M363 -789Q358 -760 355 -727Q352 -694 351 -665Q349 -624 347 -564Q345 -505 343 -439Q341 -373 340 -310Q339 -246 339 -197Q339 -146 358 -116Q377 -85 410 -72Q442 -59 484 -59Q547 -59 600 -76Q652 -93 694 -122Q736 -150 770 -187Q804 -224 831 -264L912 -165Q887 -130 848 -90Q810 -51 757 -16Q704 18 635 40Q566 61 482 61Q403 61 344 37Q285 13 252 -40Q220 -92 220 -176Q220 -217 221 -270Q222 -324 224 -381Q225 -438 226 -493Q228 -548 229 -593Q230 -638 230 -665Q230 -699 227 -731Q224 -763 218 -790Z"/>
+<path id="esc-no-7e" d="M387 -280Q354 -280 328 -294Q301 -308 278 -326Q256 -344 235 -358Q214 -371 190 -371Q167 -371 146 -354Q125 -338 107 -304L37 -356Q73 -415 114 -440Q154 -466 193 -466Q227 -466 254 -452Q280 -438 302 -420Q324 -403 345 -389Q366 -375 389 -375Q413 -375 434 -392Q455 -408 473 -442L543 -389Q507 -331 467 -306Q427 -280 387 -280Z"/>
+<path id="esc-no-2d" d="M48 -237L48 -332L317 -332L317 -237Z"/>
+</defs>
+<path fill="#e9d3b6" opacity="0.06" d="M537 97h6v6h-6zM545 97h6v6h-6zM553 97h6v6h-6zM561 97h6v6h-6zM569 97h6v6h-6zM577 97h6v6h-6zM585 97h6v6h-6zM593 97h6v6h-6zM601 97h6v6h-6zM609 97h6v6h-6zM617 97h6v6h-6zM625 97h6v6h-6zM633 97h6v6h-6zM641 97h6v6h-6zM649 97h6v6h-6zM657 97h6v6h-6zM665 97h6v6h-6zM673 97h6v6h-6zM681 97h6v6h-6zM529 105h6v6h-6zM537 105h6v6h-6zM545 105h6v6h-6zM553 105h6v6h-6zM561 105h6v6h-6zM569 105h6v6h-6zM577 105h6v6h-6zM585 105h6v6h-6zM593 105h6v6h-6zM601 105h6v6h-6zM609 105h6v6h-6zM617 105h6v6h-6zM625 105h6v6h-6zM633 105h6v6h-6zM641 105h6v6h-6zM649 105h6v6h-6zM657 105h6v6h-6zM665 105h6v6h-6zM673 105h6v6h-6zM681 105h6v6h-6zM689 105h6v6h-6zM529 113h6v6h-6zM537 113h6v6h-6zM545 113h6v6h-6zM553 113h6v6h-6zM561 113h6v6h-6zM569 113h6v6h-6zM577 113h6v6h-6zM585 113h6v6h-6zM593 113h6v6h-6zM601 113h6v6h-6zM609 113h6v6h-6zM617 113h6v6h-6zM625 113h6v6h-6zM633 113h6v6h-6zM641 113h6v6h-6zM649 113h6v6h-6zM657 113h6v6h-6zM665 113h6v6h-6zM673 113h6v6h-6zM681 113h6v6h-6zM689 113h6v6h-6zM529 121h6v6h-6zM537 121h6v6h-6zM545 121h6v6h-6zM569 121h6v6h-6zM577 121h6v6h-6zM585 121h6v6h-6zM593 121h6v6h-6zM617 121h6v6h-6zM625 121h6v6h-6zM633 121h6v6h-6zM641 121h6v6h-6zM665 121h6v6h-6zM673 121h6v6h-6zM681 121h6v6h-6zM689 121h6v6h-6zM529 129h6v6h-6zM577 129h6v6h-6zM585 129h6v6h-6zM625 129h6v6h-6zM633 129h6v6h-6zM689 129h6v6h-6zM529 137h6v6h-6zM537 137h6v6h-6zM577 137h6v6h-6zM585 137h6v6h-6zM625 137h6v6h-6zM633 137h6v6h-6zM673 137h6v6h-6zM681 137h6v6h-6zM689 137h6v6h-6zM529 145h6v6h-6zM577 145h6v6h-6zM585 145h6v6h-6zM625 145h6v6h-6zM633 145h6v6h-6zM673 145h6v6h-6zM689 145h6v6h-6zM529 153h6v6h-6zM537 153h6v6h-6zM577 153h6v6h-6zM585 153h6v6h-6zM625 153h6v6h-6zM633 153h6v6h-6zM673 153h6v6h-6zM681 153h6v6h-6zM689 153h6v6h-6zM529 161h6v6h-6zM577 161h6v6h-6zM585 161h6v6h-6zM625 161h6v6h-6zM633 161h6v6h-6zM689 161h6v6h-6zM529 169h6v6h-6zM537 169h6v6h-6zM545 169h6v6h-6zM553 169h6v6h-6zM561 169h6v6h-6zM569 169h6v6h-6zM577 169h6v6h-6zM585 169h6v6h-6zM593 169h6v6h-6zM601 169h6v6h-6zM609 169h6v6h-6zM617 169h6v6h-6zM625 169h6v6h-6zM633 169h6v6h-6zM641 169h6v6h-6zM649 169h6v6h-6zM657 169h6v6h-6zM665 169h6v6h-6zM673 169h6v6h-6zM681 169h6v6h-6zM689 169h6v6h-6zM377 177h6v6h-6zM465 177h6v6h-6zM473 177h6v6h-6zM481 177h6v6h-6zM489 177h6v6h-6zM529 177h6v6h-6zM545 177h6v6h-6zM553 177h6v6h-6zM561 177h6v6h-6zM569 177h6v6h-6zM577 177h6v6h-6zM585 177h6v6h-6zM593 177h6v6h-6zM633 177h6v6h-6zM641 177h6v6h-6zM649 177h6v6h-6zM657 177h6v6h-6zM665 177h6v6h-6zM673 177h6v6h-6zM689 177h6v6h-6zM377 185h6v6h-6zM385 185h6v6h-6zM393 185h6v6h-6zM473 185h6v6h-6zM481 185h6v6h-6zM489 185h6v6h-6zM529 185h6v6h-6zM537 185h6v6h-6zM545 185h6v6h-6zM553 185h6v6h-6zM561 185h6v6h-6zM569 185h6v6h-6zM577 185h6v6h-6zM585 185h6v6h-6zM593 185h6v6h-6zM633 185h6v6h-6zM641 185h6v6h-6zM649 185h6v6h-6zM657 185h6v6h-6zM665 185h6v6h-6zM673 185h6v6h-6zM681 185h6v6h-6zM689 185h6v6h-6zM377 193h6v6h-6zM385 193h6v6h-6zM393 193h6v6h-6zM401 193h6v6h-6zM481 193h6v6h-6zM489 193h6v6h-6zM497 193h6v6h-6zM505 193h6v6h-6zM513 193h6v6h-6zM529 193h6v6h-6zM537 193h6v6h-6zM545 193h6v6h-6zM553 193h6v6h-6zM561 193h6v6h-6zM569 193h6v6h-6zM577 193h6v6h-6zM585 193h6v6h-6zM593 193h6v6h-6zM633 193h6v6h-6zM641 193h6v6h-6zM649 193h6v6h-6zM657 193h6v6h-6zM665 193h6v6h-6zM673 193h6v6h-6zM681 193h6v6h-6zM689 193h6v6h-6zM705 193h6v6h-6zM713 193h6v6h-6zM273 201h6v6h-6zM281 201h6v6h-6zM305 201h6v6h-6zM313 201h6v6h-6zM353 201h6v6h-6zM361 201h6v6h-6zM377 201h6v6h-6zM385 201h6v6h-6zM393 201h6v6h-6zM401 201h6v6h-6zM481 201h6v6h-6zM489 201h6v6h-6zM497 201h6v6h-6zM505 201h6v6h-6zM513 201h6v6h-6zM521 201h6v6h-6zM529 201h6v6h-6zM537 201h6v6h-6zM545 201h6v6h-6zM553 201h6v6h-6zM561 201h6v6h-6zM569 201h6v6h-6zM577 201h6v6h-6zM585 201h6v6h-6zM593 201h6v6h-6zM601 201h6v6h-6zM617 201h6v6h-6zM625 201h6v6h-6zM633 201h6v6h-6zM641 201h6v6h-6zM649 201h6v6h-6zM657 201h6v6h-6zM665 201h6v6h-6zM673 201h6v6h-6zM681 201h6v6h-6zM689 201h6v6h-6zM697 201h6v6h-6zM705 201h6v6h-6zM713 201h6v6h-6zM273 209h6v6h-6zM281 209h6v6h-6zM289 209h6v6h-6zM297 209h6v6h-6zM305 209h6v6h-6zM313 209h6v6h-6zM321 209h6v6h-6zM329 209h6v6h-6zM337 209h6v6h-6zM345 209h6v6h-6zM353 209h6v6h-6zM361 209h6v6h-6zM377 209h6v6h-6zM385 209h6v6h-6zM393 209h6v6h-6zM401 209h6v6h-6zM481 209h6v6h-6zM489 209h6v6h-6zM497 209h6v6h-6zM505 209h6v6h-6zM513 209h6v6h-6zM521 209h6v6h-6zM529 209h6v6h-6zM537 209h6v6h-6zM545 209h6v6h-6zM553 209h6v6h-6zM561 209h6v6h-6zM569 209h6v6h-6zM577 209h6v6h-6zM585 209h6v6h-6zM633 209h6v6h-6zM641 209h6v6h-6zM649 209h6v6h-6zM657 209h6v6h-6zM665 209h6v6h-6zM673 209h6v6h-6zM681 209h6v6h-6zM689 209h6v6h-6zM697 209h6v6h-6zM705 209h6v6h-6zM713 209h6v6h-6zM273 217h6v6h-6zM281 217h6v6h-6zM305 217h6v6h-6zM313 217h6v6h-6zM321 217h6v6h-6zM345 217h6v6h-6zM353 217h6v6h-6zM361 217h6v6h-6zM377 217h6v6h-6zM385 217h6v6h-6zM393 217h6v6h-6zM401 217h6v6h-6zM481 217h6v6h-6zM489 217h6v6h-6zM497 217h6v6h-6zM505 217h6v6h-6zM513 217h6v6h-6zM521 217h6v6h-6zM529 217h6v6h-6zM537 217h6v6h-6zM545 217h6v6h-6zM553 217h6v6h-6zM561 217h6v6h-6zM569 217h6v6h-6zM577 217h6v6h-6zM641 217h6v6h-6zM649 217h6v6h-6zM657 217h6v6h-6zM665 217h6v6h-6zM673 217h6v6h-6zM681 217h6v6h-6zM689 217h6v6h-6zM697 217h6v6h-6zM705 217h6v6h-6zM713 217h6v6h-6zM273 225h6v6h-6zM281 225h6v6h-6zM305 225h6v6h-6zM313 225h6v6h-6zM321 225h6v6h-6zM345 225h6v6h-6zM353 225h6v6h-6zM361 225h6v6h-6zM377 225h6v6h-6zM385 225h6v6h-6zM393 225h6v6h-6zM401 225h6v6h-6zM481 225h6v6h-6zM489 225h6v6h-6zM497 225h6v6h-6zM505 225h6v6h-6zM513 225h6v6h-6zM521 225h6v6h-6zM529 225h6v6h-6zM537 225h6v6h-6zM545 225h6v6h-6zM553 225h6v6h-6zM561 225h6v6h-6zM569 225h6v6h-6zM577 225h6v6h-6zM641 225h6v6h-6zM649 225h6v6h-6zM657 225h6v6h-6zM665 225h6v6h-6zM673 225h6v6h-6zM681 225h6v6h-6zM689 225h6v6h-6zM697 225h6v6h-6zM705 225h6v6h-6zM713 225h6v6h-6zM273 233h6v6h-6zM281 233h6v6h-6zM305 233h6v6h-6zM313 233h6v6h-6zM321 233h6v6h-6zM345 233h6v6h-6zM353 233h6v6h-6zM361 233h6v6h-6zM377 233h6v6h-6zM385 233h6v6h-6zM393 233h6v6h-6zM401 233h6v6h-6zM481 233h6v6h-6zM489 233h6v6h-6zM497 233h6v6h-6zM505 233h6v6h-6zM513 233h6v6h-6zM521 233h6v6h-6zM529 233h6v6h-6zM537 233h6v6h-6zM545 233h6v6h-6zM553 233h6v6h-6zM561 233h6v6h-6zM569 233h6v6h-6zM577 233h6v6h-6zM641 233h6v6h-6zM649 233h6v6h-6zM657 233h6v6h-6zM665 233h6v6h-6zM673 233h6v6h-6zM681 233h6v6h-6zM689 233h6v6h-6zM697 233h6v6h-6zM705 233h6v6h-6zM713 233h6v6h-6zM273 241h6v6h-6zM281 241h6v6h-6zM305 241h6v6h-6zM313 241h6v6h-6zM321 241h6v6h-6zM345 241h6v6h-6zM353 241h6v6h-6zM361 241h6v6h-6zM377 241h6v6h-6zM385 241h6v6h-6zM393 241h6v6h-6zM401 241h6v6h-6zM417 241h6v6h-6zM425 241h6v6h-6zM433 241h6v6h-6zM441 241h6v6h-6zM465 241h6v6h-6zM473 241h6v6h-6zM481 241h6v6h-6zM489 241h6v6h-6zM497 241h6v6h-6zM505 241h6v6h-6zM513 241h6v6h-6zM521 241h6v6h-6zM529 241h6v6h-6zM537 241h6v6h-6zM545 241h6v6h-6zM553 241h6v6h-6zM561 241h6v6h-6zM569 241h6v6h-6zM577 241h6v6h-6zM641 241h6v6h-6zM649 241h6v6h-6zM657 241h6v6h-6zM665 241h6v6h-6zM673 241h6v6h-6zM681 241h6v6h-6zM689 241h6v6h-6zM697 241h6v6h-6zM705 241h6v6h-6zM713 241h6v6h-6zM225 249h6v6h-6zM233 249h6v6h-6zM241 249h6v6h-6zM249 249h6v6h-6zM257 249h6v6h-6zM273 249h6v6h-6zM281 249h6v6h-6zM289 249h6v6h-6zM297 249h6v6h-6zM305 249h6v6h-6zM313 249h6v6h-6zM321 249h6v6h-6zM329 249h6v6h-6zM337 249h6v6h-6zM345 249h6v6h-6zM353 249h6v6h-6zM361 249h6v6h-6zM377 249h6v6h-6zM385 249h6v6h-6zM393 249h6v6h-6zM401 249h6v6h-6zM417 249h6v6h-6zM425 249h6v6h-6zM433 249h6v6h-6zM441 249h6v6h-6zM449 249h6v6h-6zM457 249h6v6h-6zM465 249h6v6h-6zM473 249h6v6h-6zM481 249h6v6h-6zM489 249h6v6h-6zM497 249h6v6h-6zM505 249h6v6h-6zM513 249h6v6h-6zM521 249h6v6h-6zM529 249h6v6h-6zM537 249h6v6h-6zM545 249h6v6h-6zM553 249h6v6h-6zM561 249h6v6h-6zM569 249h6v6h-6zM577 249h6v6h-6zM641 249h6v6h-6zM649 249h6v6h-6zM657 249h6v6h-6zM665 249h6v6h-6zM673 249h6v6h-6zM681 249h6v6h-6zM689 249h6v6h-6zM697 249h6v6h-6zM705 249h6v6h-6zM713 249h6v6h-6z"/>
+<path fill="#e9d3b6" opacity="0.13" d="M537 129h6v6h-6zM673 129h6v6h-6zM681 129h6v6h-6zM537 145h6v6h-6zM681 145h6v6h-6zM537 161h6v6h-6zM673 161h6v6h-6zM681 161h6v6h-6zM537 177h6v6h-6zM681 177h6v6h-6z"/>
+<g fill="#8a8276" opacity="0.13">
+<use href="#esc-pl-under" transform="translate(321.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(329.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(337.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(345.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(353.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(321.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(353.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(321.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(353.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(321.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(289.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(297.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(713.9 151.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(721.9 151.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(729.9 151.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(737.9 151.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(745.9 151.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(713.9 159.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 159.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(713.9 167.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 167.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(713.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(713.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(713.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(745.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(753.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(761.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(769.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(769.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(769.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(769.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(769.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(769.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(769.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(769.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(769.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(769.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(745.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(769.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(497.9 159.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(505.9 159.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(513.9 159.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(497.9 167.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(513.9 167.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(497.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(513.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(497.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(513.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(497.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(513.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(353.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(361.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(369.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(353.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(369.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(353.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(369.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(353.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(369.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(369.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(369.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(369.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(369.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(369.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(369.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(369.9 255.625) scale(0.007)"/>
+</g>
+<g fill="#8a8276" opacity="0.3">
+<use href="#esc-pl-dot" transform="translate(329.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(345.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(329.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(289.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(289.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(721.9 167.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(737.9 167.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(721.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(737.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(721.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(721.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(721.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(737.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(721.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(737.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(753.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(753.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(753.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(505.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(361.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(361.9 199.625) scale(0.007)"/>
+</g>
+<g fill="#e9d3b6" opacity="0.7">
+<use href="#esc-pl-slash" transform="translate(537.9 103.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(545.9 103.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(553.9 103.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(561.9 103.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(569.9 103.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(577.9 103.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(585.9 103.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(593.9 103.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(601.9 103.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(609.9 103.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(617.9 103.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(625.9 103.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(633.9 103.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(641.9 103.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(649.9 103.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(657.9 103.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(665.9 103.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(673.9 103.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(681.9 103.625) scale(0.007)"/>
+<use href="#esc-pl-slash" transform="translate(529.9 111.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(689.9 111.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(529.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(537.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(545.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(553.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(561.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(569.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(577.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(585.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(593.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(601.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(609.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(617.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(625.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(633.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(641.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(649.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(657.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(665.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(673.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(681.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(689.9 119.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(529.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(537.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(545.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(553.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(561.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(569.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(577.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(585.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(593.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(601.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(609.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(617.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(625.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(633.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(641.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(649.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(657.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(665.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(673.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(681.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-equal" transform="translate(689.9 175.625) scale(0.007)"/>
+<use href="#esc-pl-slash" transform="translate(377.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-slash" transform="translate(465.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(473.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(481.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(489.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(385.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(393.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(401.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(497.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(505.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(513.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-slash" transform="translate(705.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(713.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-slash" transform="translate(273.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(281.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-slash" transform="translate(305.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(313.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-slash" transform="translate(353.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(361.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(521.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(697.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(289.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(297.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(321.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(329.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(337.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(345.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-slash" transform="translate(417.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(425.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(433.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(441.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-slash" transform="translate(465.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(473.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-slash" transform="translate(225.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(233.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(241.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(249.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(257.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(289.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(297.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(329.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(337.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(449.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(457.9 255.625) scale(0.007)"/>
+</g>
+<g fill="#e9d3b6" opacity="0.26">
+<use href="#esc-pl-bar" transform="translate(633.9 111.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(633.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(681.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(641.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(689.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(681.9 239.625) scale(0.007)"/>
+</g>
+<g fill="#e9d3b6" opacity="0.25">
+<use href="#esc-pl-dot" transform="translate(673.9 111.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(537.9 127.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(633.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(657.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(585.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(665.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(529.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(537.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(545.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(529.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(689.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-dot" transform="translate(481.9 247.625) scale(0.007)"/>
+</g>
+<g fill="#e9d3b6" opacity="0.27">
+<use href="#esc-pl-bar" transform="translate(681.9 111.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(561.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(585.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(657.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(673.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(537.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(281.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(521.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(553.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(561.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(513.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(649.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(697.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(489.9 247.625) scale(0.007)"/>
+</g>
+<g fill="#e9d3b6" opacity="0.65">
+<use href="#esc-pl-bar" transform="translate(529.9 127.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(689.9 127.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(529.9 135.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(537.9 135.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(577.9 135.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(585.9 135.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(625.9 135.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(633.9 135.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(673.9 135.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(689.9 135.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(529.9 143.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(537.9 143.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(577.9 143.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(585.9 143.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(625.9 143.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(633.9 143.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(673.9 143.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(689.9 143.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(529.9 151.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(537.9 151.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(577.9 151.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(585.9 151.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(625.9 151.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(633.9 151.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(673.9 151.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(689.9 151.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(529.9 159.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(537.9 159.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(577.9 159.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(585.9 159.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(625.9 159.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(633.9 159.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(673.9 159.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(689.9 159.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(529.9 167.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(537.9 167.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(577.9 167.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(585.9 167.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(625.9 167.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(633.9 167.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(673.9 167.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(689.9 167.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(529.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(689.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(377.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(489.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(529.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(689.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(377.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(481.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(529.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(689.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(377.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(401.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(481.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(713.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(273.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(361.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(377.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(401.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(481.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(713.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(273.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(281.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(305.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(321.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(345.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(361.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(377.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(401.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(481.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(577.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(641.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(713.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(273.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(281.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(305.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(321.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(345.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(361.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(377.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(401.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(481.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(577.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(641.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(713.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(273.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(281.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(305.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(321.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(345.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(361.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(377.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(401.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(481.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(577.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(641.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(713.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(273.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(281.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(305.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(321.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(345.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(361.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(377.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(401.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(577.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(641.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(713.9 247.625) scale(0.007)"/>
+</g>
+<g fill="#e9d3b6" opacity="0.55">
+<use href="#esc-pl-slash" transform="translate(545.9 127.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(569.9 127.625) scale(0.007)"/>
+<use href="#esc-pl-slash" transform="translate(593.9 127.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(617.9 127.625) scale(0.007)"/>
+<use href="#esc-pl-slash" transform="translate(641.9 127.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(665.9 127.625) scale(0.007)"/>
+<use href="#esc-pl-hash" transform="translate(609.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-hash" transform="translate(625.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(473.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-hash" transform="translate(601.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-hash" transform="translate(609.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-hash" transform="translate(617.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-hash" transform="translate(625.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-hash" transform="translate(609.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-hash" transform="translate(625.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(593.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-slash" transform="translate(601.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(617.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(625.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-slash" transform="translate(585.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(633.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(273.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(281.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(305.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(313.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(321.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(345.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(353.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-slash" transform="translate(361.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(377.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(385.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(393.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-slash" transform="translate(401.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(417.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(425.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(433.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(441.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(465.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(473.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(481.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(489.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(497.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(505.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(513.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(521.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(529.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(537.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(545.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(553.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(561.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(569.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-slash" transform="translate(577.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-backslash" transform="translate(641.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(649.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(657.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(665.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(673.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(681.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(689.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(697.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-hyphen" transform="translate(705.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-slash" transform="translate(713.9 255.625) scale(0.007)"/>
+</g>
+<g fill="#e9d3b6" opacity="0.28">
+<use href="#esc-pl-under" transform="translate(681.9 143.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(633.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(497.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(513.9 231.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(385.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(537.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(545.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(673.9 239.625) scale(0.007)"/>
+</g>
+<g fill="#e9d3b6" opacity="0.29">
+<use href="#esc-pl-bar" transform="translate(681.9 151.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(553.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(633.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(545.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(657.9 239.625) scale(0.007)"/>
+</g>
+<g fill="#e9d3b6" opacity="0.3">
+<use href="#esc-pl-bar" transform="translate(681.9 159.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(681.9 167.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(593.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(569.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(577.9 215.625) scale(0.007)"/>
+</g>
+<g fill="#e9d3b6" opacity="0.35">
+<use href="#esc-pl-plus" transform="translate(601.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-plus" transform="translate(617.9 183.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(537.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-plus" transform="translate(601.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-plus" transform="translate(617.9 199.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(489.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(529.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(649.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(657.9 215.625) scale(0.007)"/>
+</g>
+<g fill="#e9d3b6" opacity="0.32">
+<use href="#esc-pl-under" transform="translate(481.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(505.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(313.9 239.625) scale(0.007)"/>
+</g>
+<g fill="#e9d3b6" opacity="0.31">
+<use href="#esc-pl-under" transform="translate(545.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(641.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(393.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(585.9 207.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(305.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(313.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(393.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(513.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(561.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(705.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(393.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(393.9 247.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(681.9 247.625) scale(0.007)"/>
+</g>
+<g fill="#e9d3b6" opacity="0.33">
+<use href="#esc-pl-under" transform="translate(561.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(665.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(513.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(673.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(705.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(353.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(553.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(561.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(569.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(705.9 239.625) scale(0.007)"/>
+</g>
+<g fill="#e9d3b6" opacity="0.34">
+<use href="#esc-pl-under" transform="translate(649.9 191.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(385.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(561.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(665.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(681.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(697.9 215.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(489.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(497.9 239.625) scale(0.007)"/>
+<use href="#esc-pl-under" transform="translate(521.9 239.625) scale(0.007)"/>
+</g>
+<g fill="#e9d3b6" opacity="0.24">
+<use href="#esc-pl-bar" transform="translate(657.9 223.625) scale(0.007)"/>
+<use href="#esc-pl-bar" transform="translate(537.9 247.625) scale(0.007)"/>
+</g>
+<g fill="#8a8276" opacity="0.5">
+<use href="#esc-pl-comma" transform="translate(9.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-comma" transform="translate(17.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-comma" transform="translate(25.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-quot" transform="translate(57.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-quot" transform="translate(73.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-comma" transform="translate(81.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-quot" transform="translate(89.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-quot" transform="translate(97.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-quot" transform="translate(113.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-comma" transform="translate(129.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-quot" transform="translate(137.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-comma" transform="translate(185.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-quot" transform="translate(201.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-quot" transform="translate(209.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-quot" transform="translate(625.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-comma" transform="translate(633.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-quot" transform="translate(721.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-comma" transform="translate(769.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-comma" transform="translate(777.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-comma" transform="translate(785.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-comma" transform="translate(793.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-comma" transform="translate(833.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-quot" transform="translate(841.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-quot" transform="translate(873.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-comma" transform="translate(889.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-comma" transform="translate(897.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-comma" transform="translate(905.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-quot" transform="translate(929.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-quot" transform="translate(937.9 255.625) scale(0.007)"/>
+<use href="#esc-pl-comma" transform="translate(961.9 255.625) scale(0.007)"/>
+</g>
+<g class="esc-cat">
+<use href="#esc-no-ff0f" fill="#9aa8b5" transform="translate(596.4092 31.4116) scale(0.0165)"/>
+<use href="#esc-no-6c" fill="#9aa8b5" transform="translate(614.1411 31.8452) scale(0.0168)"/>
+<use href="#esc-no-3001" fill="#9aa8b5" transform="translate(620.4513 33.1293) scale(0.0169)"/>
+<use href="#esc-no-ff9f" fill="#7fb0d9" transform="translate(600.1861 47.9336) scale(0.0143)"/>
+<use href="#esc-no-28" fill="#9aa8b5" transform="translate(586.9854 50.959) scale(0.0168)"/>
+<use href="#esc-no-30d5" fill="#9aa8b5" transform="translate(631.6623 53.1337) scale(0.0186)"/>
+<use href="#esc-no-3001" fill="#9aa8b5" transform="translate(605.2582 53.3156) scale(0.0113)"/>
+<use href="#esc-no-ff9f" fill="#7fb0d9" transform="translate(621.1364 64.0729) scale(0.0154)"/>
+<use href="#esc-no-3003" fill="#9aa8b5" transform="translate(614.5823 63.8252) scale(0.0131)"/>
+<use href="#esc-no-30fd" fill="#9aa8b5" transform="translate(623.9603 73.2063) scale(0.0192)"/>
+<use href="#esc-no-300d" fill="#9aa8b5" transform="translate(586.3912 73.3528) scale(0.0227)"/>
+<use href="#esc-no-65e6" fill="#9aa8b5" transform="translate(554.4147 94.3354) scale(0.0202)"/>
+<use href="#esc-no-28" fill="#9aa8b5" transform="translate(580.8654 92.031) scale(0.0168)"/>
+<use href="#esc-no-29" fill="#9aa8b5" transform="translate(587.4788 92.031) scale(0.0168)"/>
+<use href="#esc-no-3b9" fill="#9aa8b5" transform="translate(599.5525 93.6856) scale(0.0196)"/>
+<use href="#esc-no-3057" fill="#9aa8b5" transform="translate(611.727 93.6839) scale(0.019)"/>
+<use href="#esc-no-28" fill="#9aa8b5" transform="translate(629.1454 92.031) scale(0.0168)"/>
+<use href="#esc-no-7e" fill="#9aa8b5" transform="translate(635.1453 84.5069) scale(0.0159)"/>
+<use href="#esc-no-29" fill="#9aa8b5" transform="translate(644.0548 92.031) scale(0.0168)"/>
+</g>
+<g class="esc-tail">
+<use href="#esc-no-7e" fill="#9aa8b5" transform="translate(650.8686 98.5461) scale(0.032)"/>
+</g>
+<g class="esc-lids">
+<use href="#esc-no-2d" fill="#7fb0d9" transform="translate(599.4448 41.4036) scale(0.0137)"/>
+<use href="#esc-no-2d" fill="#7fb0d9" transform="translate(620.3402 57.0593) scale(0.0147)"/>
+</g>
+<g class="esc-steam0" fill="#8a8276">
+<use href="#esc-no-7e" transform="rotate(90) translate(-6.2356 8.0202) scale(0.0215)"/>
+</g>
+<g class="esc-steam1" fill="#8a8276">
+<use href="#esc-no-7e" transform="rotate(90) translate(-6.2356 8.0202) scale(0.0215)"/>
+</g>
+<g class="esc-steam2" fill="#8a8276">
+<use href="#esc-no-7e" transform="rotate(90) translate(-6.2356 8.0202) scale(0.0215)"/>
+</g>
+</svg>
