@@ -1,4 +1,4 @@
-"""Generate the profile-banner SVGs.
+"""Generate the scene fragments for the unified profile card.
 
 The contours in ``glyphs.json`` were extracted once with fontTools 4.68.0.
 fontTools is not imported here. Fonts, both under the SIL Open Font License 1.1:
@@ -8,16 +8,23 @@ fontTools is not imported here. Fonts, both under the SIL Open Font License 1.1:
   (``fontTools.varLib.instancer.instantiateVariableFont(font, {"wght": 600})``)
 
 Outlines were recorded with a y-down pen (``round`` to font units) from those
-files. Re-running this script rewrites ``banner-light.svg`` and
-``banner-dark.svg`` and does not touch ``glyphs.json``.
+files. Re-running this script rewrites ``escena-claro.svg`` and
+``escena-oscuro.svg``. It does not touch ``glyphs.json``, nor the legacy
+``banner-light.svg`` and ``banner-dark.svg`` files the README still references.
+
+``render(theme)`` returns the UTF-8 bytes of one fragment. ``--out DIR``
+writes both fragments into that directory; without it, they are written next
+to this script. Same input, same bytes.
 
 Geometry is ported from dakuar/portafolio ``src/features/hero-scene``
 (``ruins.ts``, ``scene.ts``, ``cats.ts``). ``actors.ts`` supplies the steam
 curve and the tail swing. The tower is redrawn to 21 by 20 cells so it fits
 the 32-row banner; the walls keep their x ranges at about 60 percent of their
-original height. Stars and the lit window are P1 and are omitted: the three
-steam wisps, the tail and the blink already leave no room for 8 to 12 stars
-under the limit of 12 animated elements.
+original height. Stars and the lit window are P1 and are omitted. The viewBox
+is the full 975 by 260 scene. ``PLACEMENT`` is the nested ``<svg>`` box on the
+975 by 350 card, and ``SLOT`` is the clip the integrator applies so the scene
+stays left of the text. The fragment does not paint ``bg``: the slot stays
+transparent and the card color shows through, as in propuesta B.
 """
 
 from __future__ import annotations
@@ -75,6 +82,7 @@ SKYLINE = (
     (4, 3, 11),
 )
 
+# ``bg`` is the card color. This fragment does not paint it.
 LIGHT = {
     "bg": "#f6f8fa",
     "stone": "#6b5842",
@@ -90,23 +98,40 @@ DARK = {
     "eye": "#7fb0d9",
 }
 
-TITLE = (
-    "Torre de la Catedral de Panamá Viejo en arte ASCII con un gato que toma "
-    "café en lo alto. Enlace a dakuar.com"
-)
+# Theme name -> day or night palette. ``render`` accepts these keys.
+THEMES = {
+    "claro": LIGHT,
+    "oscuro": DARK,
+}
+SCENE_FILES = {
+    "claro": "escena-claro.svg",
+    "oscuro": "escena-oscuro.svg",
+}
+
+# Nested <svg> on the 975×350 card: x, y, width, height.
+# The opening tag is formatted only from this value.
+PLACEMENT = (-513.0462, 22, 1147.5, 306)
+# Clip the integrator applies on that card: x, y, width, height, rx.
+# Reference only; this fragment does not draw the clip.
+SLOT = (16, 22, 356, 306, 8)
+
+# One shared period for steam, tail and blink.
+LOOP = "6s"
+# Elements that carry an animation. The reduced-motion rule names these.
+ANIMATED = ("esc-tail", "esc-steam0", "esc-steam1", "esc-steam2", "esc-lids")
 
 PLEX_ID = {
-    "/": "pl-slash",
-    "\\": "pl-backslash",
-    "|": "pl-bar",
-    "_": "pl-under",
-    "-": "pl-hyphen",
-    "=": "pl-equal",
-    "#": "pl-hash",
-    "+": "pl-plus",
-    ".": "pl-dot",
-    ",": "pl-comma",
-    '"': "pl-quot",
+    "/": "esc-pl-slash",
+    "\\": "esc-pl-backslash",
+    "|": "esc-pl-bar",
+    "_": "esc-pl-under",
+    "-": "esc-pl-hyphen",
+    "=": "esc-pl-equal",
+    "#": "esc-pl-hash",
+    "+": "esc-pl-plus",
+    ".": "esc-pl-dot",
+    ",": "esc-pl-comma",
+    '"': "esc-pl-quot",
 }
 
 
@@ -428,9 +453,22 @@ def transform(pen_x, pen_y, scale) -> str:
     return f"translate({fmt(pen_x)} {fmt(pen_y)}) scale({fmt(scale)})"
 
 
+def _percent_label(percent: float) -> str:
+    if abs(percent) < 1e-9:
+        return "0"
+    if abs(percent - 100) < 1e-9:
+        return "100"
+    return fmt(percent)
+
+
 def steam_frames(cup_x, cup_y):
-    """One 3 s wisp. Hidden at both ends so the loop meets. Age runs 0..2.6 s."""
-    frames = []
+    """Two 3 s rises packed into the shared 6 s loop.
+
+    Hidden at both ends of each rise so the loop meets. Age within a rise
+    runs 0..2.6 s. Delays of -1 s and -2 s still space the three wisps by
+    one second, because each rise occupies half of the 6 s timeline.
+    """
+    samples = []
     for step in range(0, 27):
         age = step / 10
         fade_in = min(1.0, age / 0.4)
@@ -438,50 +476,89 @@ def steam_frames(cup_x, cup_y):
         alpha = 0.7 * fade_in * fade_out
         dx = math.sin(age * 2.4) * 18 * SCALE
         dy = -age * 60 * SCALE
-        frames.append((age / 3 * 100, cup_x + dx, cup_y + dy, alpha))
-    frames.append((100, frames[0][1], frames[0][2], frames[0][3]))
+        samples.append((cup_x + dx, cup_y + dy, alpha, age))
+    frames = []
+    for cycle in (0, 1):
+        for x, y, alpha, age in samples:
+            frames.append((age / 3 * 50 + cycle * 50, x, y, alpha))
+    start_x, start_y, start_alpha, _age = samples[0]
+    frames.append((100.0, start_x, start_y, start_alpha))
     return frames
+
+
+def opening_tag() -> str:
+    """Root element. Attribute order and viewBox are part of the contract."""
+    x, y, width, height = PLACEMENT
+    return (
+        '<svg xmlns="http://www.w3.org/2000/svg"'
+        f' x="{fmt(x)}" y="{fmt(y)}"'
+        f' width="{fmt(width)}" height="{fmt(height)}"'
+        ' viewBox="0 0 975 260" overflow="hidden">'
+    )
 
 
 def css(scene: Scene) -> str:
     cup_x, cup_y = scene.cup()
     frames = steam_frames(cup_x, cup_y)
-    # Rest pose: one wisp at mid-rise (age 1.3 s), the other two hidden.
+    # Rest pose, also the frame left when animation is removed: eyes open
+    # (lids at opacity 0), tail at rotate(0), one wisp at mid-rise (age 1.3 s)
+    # and the other two hidden. Keyframe 0% matches that pose for tail and lids.
     mid_age = 1.3
     mid_x = cup_x + math.sin(mid_age * 2.4) * 18 * SCALE
     mid_y = cup_y - mid_age * 60 * SCALE
     pivot_x, pivot_y = scene.pivot()
     pen_x, pen_y, scale = scene.steam_local()
-    body = [
-        ".tail,.steam0,.steam1,.steam2{transform-box:view-box}",
-        f".tail{{transform-origin:{fmt(pivot_x)}px {fmt(pivot_y)}px;transform:rotate(0rad);animation:tail 3s ease-in-out infinite}}",
-        f".steam0{{opacity:.7;transform:translate({fmt(mid_x)}px,{fmt(mid_y)}px);animation:steam 3s linear infinite}}",
-        f".steam1,.steam2{{opacity:0;transform:translate({fmt(cup_x)}px,{fmt(cup_y)}px);animation:steam 3s linear infinite}}",
-        ".steam1{animation-delay:-1s}.steam2{animation-delay:-2s}",
-        ".lids{opacity:0;animation:blink 6s linear infinite}",
-        "@keyframes tail{0%,100%{transform:rotate(0rad)}25%{transform:rotate(.22rad)}75%{transform:rotate(-.22rad)}}",
-        "@keyframes blink{0%,66.666%{opacity:0}66.75%,69%{opacity:1}69.084%,100%{opacity:0}}",
-        "@keyframes steam{",
-    ]
-    parts = []
-    for percent, x, y, alpha in frames:
-        label = fmt(percent) if percent not in (0, 100) else str(int(percent))
-        if percent == 0:
-            label = "0"
-        if abs(percent - 100) < 1e-9:
-            label = "100"
-        parts.append(f"{label}%{{transform:translate({fmt(x)}px,{fmt(y)}px);opacity:{fmt(alpha)}}}")
-    body.append("".join(parts))
-    body.append("}")
-    body.append("@media (prefers-reduced-motion:reduce){*{animation:none!important}}")
     # The rotate lives on the wisp itself so the keyframes only translate.
     scene.steam_transform = f"rotate(90) translate({fmt(pen_x)} {fmt(pen_y)}) scale({fmt(scale)})"
+    animated = ",".join(f".{name}" for name in ANIMATED)
+    body = [
+        ".esc-tail,.esc-steam0,.esc-steam1,.esc-steam2{transform-box:view-box}",
+        (
+            f".esc-tail{{transform-origin:{fmt(pivot_x)}px {fmt(pivot_y)}px;"
+            f"transform:rotate(0rad);animation:esc-tail {LOOP} ease-in-out infinite}}"
+        ),
+        (
+            f".esc-steam0{{opacity:.7;transform:translate({fmt(mid_x)}px,{fmt(mid_y)}px);"
+            f"animation:esc-steam {LOOP} linear infinite}}"
+        ),
+        (
+            f".esc-steam1,.esc-steam2{{opacity:0;"
+            f"transform:translate({fmt(cup_x)}px,{fmt(cup_y)}px);"
+            f"animation:esc-steam {LOOP} linear infinite}}"
+        ),
+        ".esc-steam1{animation-delay:-1s}.esc-steam2{animation-delay:-2s}",
+        f".esc-lids{{opacity:0;animation:esc-blink {LOOP} linear infinite}}",
+        (
+            "@keyframes esc-tail{"
+            "0%,50%,100%{transform:rotate(0rad)}"
+            "12.5%,62.5%{transform:rotate(.22rad)}"
+            "37.5%,87.5%{transform:rotate(-.22rad)}}"
+        ),
+        "@keyframes esc-blink{0%,66.666%{opacity:0}66.75%,69%{opacity:1}69.084%,100%{opacity:0}}",
+        "@keyframes esc-steam{",
+    ]
+    parts = []
+    seen = set()
+    for percent, x, y, alpha in frames:
+        label = _percent_label(percent)
+        if label in seen:
+            raise RuntimeError(f"duplicate steam keyframe {label}")
+        seen.add(label)
+        parts.append(
+            f"{label}%{{transform:translate({fmt(x)}px,{fmt(y)}px);opacity:{fmt(alpha)}}}"
+        )
+    body.append("".join(parts))
+    body.append("}")
+    body.append(
+        "@media (prefers-reduced-motion: reduce)"
+        f"{{{animated}{{animation:none!important}}}}"
+    )
     return "".join(body)
 
 
-def render(palette, scene: Scene) -> str:
+def _document(palette, scene: Scene) -> str:
     plex_ids = dict(PLEX_ID)
-    noto_ids = {ch: "no-" + format(ord(ch), "x") for ch in scene.noto["glyphs"]}
+    noto_ids = {ch: "esc-no-" + format(ord(ch), "x") for ch in scene.noto["glyphs"]}
     defs = []
     for ch, gid in plex_ids.items():
         defs.append(f'<path id="{gid}" d="{scene.plex["glyphs"][ch]["d"]}"/>')
@@ -489,34 +566,32 @@ def render(palette, scene: Scene) -> str:
         defs.append(f'<path id="{gid}" d="{scene.noto["glyphs"][ch]["d"]}"/>')
 
     groups = {}
-    for font, ch, pen_x, pen_y, scale, fill, alpha, group in scene.uses:
+    for font, ch, pen_x, pen_y, scale, fill, alpha, _group in scene.uses:
         if font != "plex":
             continue
         gid = plex_ids[ch]
         key = (palette[fill], alpha)
-        groups.setdefault(key, []).append(f'<use href="#{gid}" transform="{transform(pen_x, pen_y, scale)}"/>')
+        groups.setdefault(key, []).append(
+            f'<use href="#{gid}" transform="{transform(pen_x, pen_y, scale)}"/>'
+        )
 
     chunks = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<svg xmlns="http://www.w3.org/2000/svg" width="975" height="260" viewBox="0 0 975 260" role="img" aria-labelledby="banner-title">',
+        opening_tag(),
         "<!--",
         "IBM Plex Mono (weight 500) and Noto Sans JP (weight 600),",
-        "both under the SIL Open Font License 1.1:",
-        "https://openfontlicense.org/open-font-license-official-text/",
+        "both under the SIL Open Font License 1.1.",
         "Contours extracted once with fontTools. See banner/build.py.",
         "-->",
-        f'<title id="banner-title">{TITLE}</title>',
         f"<style>{css(scene)}</style>",
         "<defs>",
-        f'<clipPath id="frame"><rect width="975" height="260" rx="15"/></clipPath>',
         *defs,
         "</defs>",
-        '<g clip-path="url(#frame)">',
-        f'<rect width="975" height="260" rx="15" fill="{palette["bg"]}"/>',
     ]
     rects = {}
     for x, y, w, h, fill, alpha in scene.rects:
-        rects.setdefault((palette[fill], alpha), []).append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}"/>')
+        rects.setdefault((palette[fill], alpha), []).append(
+            f'<rect x="{x}" y="{y}" width="{w}" height="{h}"/>'
+        )
     for (color, alpha), items in rects.items():
         chunks.append(f'<g fill="{color}" opacity="{fmt(alpha)}">')
         chunks.extend(items)
@@ -533,36 +608,68 @@ def render(palette, scene: Scene) -> str:
         if not found:
             return
         chunks.append(f'<g class="{name}"{extra}>')
-        for font, ch, pen_x, pen_y, scale, fill, alpha, _group in found:
+        for _font, ch, pen_x, pen_y, scale, fill, _alpha, _group in found:
             gid = noto_ids[ch]
             chunks.append(
                 f'<use href="#{gid}" fill="{palette[fill]}" transform="{transform(pen_x, pen_y, scale)}"/>'
             )
         chunks.append("</g>")
 
-    emit_group("cat", lambda item: item[0] == "noto" and item[7] == "")
-    emit_group("tail", lambda item: item[7] == "tail")
-    emit_group("lids", lambda item: item[7] == "lids")
+    emit_group("esc-cat", lambda item: item[0] == "noto" and item[7] == "")
+    emit_group("esc-tail", lambda item: item[7] == "tail")
+    emit_group("esc-lids", lambda item: item[7] == "lids")
 
     steam = scene.steam_transform
-    for name in ("steam0", "steam1", "steam2"):
+    for name in ("esc-steam0", "esc-steam1", "esc-steam2"):
         chunks.append(f'<g class="{name}" fill="{palette["muted"]}">')
         chunks.append(f'<use href="#{noto_ids["~"]}" transform="{steam}"/>')
         chunks.append("</g>")
 
-    chunks.append("</g></svg>\n")
-    return "\n".join(chunks)
+    chunks.append("</svg>")
+    text = "\n".join(chunks)
+    if not text.endswith("\n"):
+        text += "\n"
+    return text
 
 
-def main() -> None:
+def build_scene() -> Scene:
     _check_hash()
     plex, noto = load_glyphs()
-    # Attach upem onto glyph dicts used by plex_transform via a side channel.
-    scene = Scene(plex, noto)
-    for name, palette in (("banner-light.svg", LIGHT), ("banner-dark.svg", DARK)):
-        text = render(palette, scene)
-        (ROOT / name).write_text(text, encoding="utf-8", newline="\n")
-    if "--layout" in sys.argv:
+    return Scene(plex, noto)
+
+
+def render(theme: str) -> bytes:
+    """UTF-8 bytes of the ``claro`` or ``oscuro`` fragment.
+
+    LF line endings, a trailing newline, no XML declaration.
+    """
+    try:
+        palette = THEMES[theme]
+    except KeyError:
+        raise ValueError(f"unknown theme {theme!r}") from None
+    text = _document(palette, build_scene())
+    if "\r" in text or not text.endswith("\n"):
+        raise RuntimeError("scene fragment must use LF and end with a newline")
+    return text.encode("utf-8")
+
+
+def main(argv: list[str] | None = None) -> None:
+    args = list(sys.argv[1:] if argv is None else argv)
+    out = ROOT
+    if "--out" in args:
+        index = args.index("--out")
+        if index + 1 >= len(args):
+            raise SystemExit("usage: build.py [--out DIR] [--layout]")
+        out = Path(args[index + 1])
+        del args[index : index + 2]
+    unknown = [arg for arg in args if arg != "--layout"]
+    if unknown:
+        raise SystemExit("usage: build.py [--out DIR] [--layout]")
+    out.mkdir(parents=True, exist_ok=True)
+    for theme, name in SCENE_FILES.items():
+        (out / name).write_bytes(render(theme))
+    if "--layout" in args:
+        scene = build_scene()
         cup = scene.cup()
         pivot = scene.pivot()
         eyes = scene.eye_points()
@@ -576,6 +683,8 @@ def main() -> None:
                     "eyes": [[round(p[0], 2), round(p[1], 2)] for p in eyes],
                     "uses": len(scene.uses),
                     "rects": len(scene.rects),
+                    "placement": list(PLACEMENT),
+                    "slot": list(SLOT),
                 }
             )
             + "\n"
