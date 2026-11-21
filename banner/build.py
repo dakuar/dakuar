@@ -20,11 +20,13 @@ Geometry is ported from dakuar/portafolio ``src/features/hero-scene``
 (``ruins.ts``, ``scene.ts``, ``cats.ts``). ``actors.ts`` supplies the steam
 curve and the tail swing. The tower is redrawn to 21 by 20 cells so it fits
 the 32-row banner; the walls keep their x ranges at about 60 percent of their
-original height. Stars and the lit window are P1 and are omitted. The viewBox
-is the full 975 by 260 scene. ``PLACEMENT`` is the nested ``<svg>`` box on the
-975 by 350 card, and ``SLOT`` is the clip the integrator applies so the scene
-stays left of the text. The fragment does not paint ``bg``: the slot stays
-transparent and the card color shows through, as in propuesta B.
+original height. Stars and the lit window are P1 and are omitted. The root
+is the full scene, ``width="975"`` ``height="260"`` and
+``viewBox="0 0 975 260"``, with no ``x`` or ``y``. ``PLACEMENT`` and ``SLOT``
+are reference constants only: the integrator applies them when nesting the
+fragment on the 975 by 350 card, so the scene stays left of the text. The
+fragment does not paint ``bg``: the slot stays transparent and the card color
+shows through, as in propuesta B.
 """
 
 from __future__ import annotations
@@ -108,8 +110,8 @@ SCENE_FILES = {
     "oscuro": "escena-oscuro.svg",
 }
 
-# Nested <svg> on the 975×350 card: x, y, width, height.
-# The opening tag is formatted only from this value.
+# Reference only. The integrator places the nested <svg> on the 975×350 card.
+# x, y, width, height. The fragment root does not carry these.
 PLACEMENT = (-513.0462, 22, 1147.5, 306)
 # Clip the integrator applies on that card: x, y, width, height, rx.
 # Reference only; this fragment does not draw the clip.
@@ -487,13 +489,10 @@ def steam_frames(cup_x, cup_y):
 
 
 def opening_tag() -> str:
-    """Root element. Attribute order and viewBox are part of the contract."""
-    x, y, width, height = PLACEMENT
+    """Root of the full scene. Placement is not an attribute of this tag."""
     return (
         '<svg xmlns="http://www.w3.org/2000/svg"'
-        f' x="{fmt(x)}" y="{fmt(y)}"'
-        f' width="{fmt(width)}" height="{fmt(height)}"'
-        ' viewBox="0 0 975 260" overflow="hidden">'
+        ' width="975" height="260" viewBox="0 0 975 260" overflow="hidden">'
     )
 
 
@@ -587,15 +586,19 @@ def _document(palette, scene: Scene) -> str:
         *defs,
         "</defs>",
     ]
+    # One path per tint. The cells are the same non-overlapping 6×6 squares
+    # the separate rects drew, so the fill and the opacity match exactly and
+    # the fragment stays under 70 KB. Nothing here is cropped to SLOT.
     rects = {}
     for x, y, w, h, fill, alpha in scene.rects:
-        rects.setdefault((palette[fill], alpha), []).append(
-            f'<rect x="{x}" y="{y}" width="{w}" height="{h}"/>'
-        )
+        rects.setdefault((palette[fill], alpha), []).append((x, y, w, h))
     for (color, alpha), items in rects.items():
-        chunks.append(f'<g fill="{color}" opacity="{fmt(alpha)}">')
-        chunks.extend(items)
-        chunks.append("</g>")
+        commands = []
+        for x, y, w, h in items:
+            commands.append(f"M{fmt(x)} {fmt(y)}h{fmt(w)}v{fmt(h)}h-{fmt(w)}z")
+        chunks.append(
+            f'<path fill="{color}" opacity="{fmt(alpha)}" d="{"".join(commands)}"/>'
+        )
     for (color, alpha), uses in groups.items():
         opacity = "" if alpha == 1 else f' opacity="{fmt(alpha)}"'
         chunks.append(f'<g fill="{color}"{opacity}>')

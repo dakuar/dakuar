@@ -14,8 +14,8 @@ BANNER = ROOT / "banner"
 FILES = ("escena-claro.svg", "escena-oscuro.svg")
 THEMES = {"escena-claro.svg": "claro", "escena-oscuro.svg": "oscuro"}
 ROOT_TAG = (
-    '<svg xmlns="http://www.w3.org/2000/svg" x="-513.0462" y="22"'
-    ' width="1147.5" height="306" viewBox="0 0 975 260" overflow="hidden">'
+    '<svg xmlns="http://www.w3.org/2000/svg"'
+    ' width="975" height="260" viewBox="0 0 975 260" overflow="hidden">'
 )
 NS = "http://www.w3.org/2000/svg"
 ANIMATED = {"esc-tail", "esc-steam0", "esc-steam1", "esc-steam2", "esc-lids"}
@@ -27,6 +27,49 @@ _spec.loader.exec_module(build)
 
 def load(name: str) -> str:
     return (BANNER / name).read_text(encoding="utf-8")
+
+
+def check_fragments(paths):
+    """Chequeo estático de QA.
+
+    Cada fragmento tiene width='975', height='260' y viewBox='0 0 975 260',
+    no contiene <text>, sus id son únicos y todo #ref apunta a uno de ellos.
+    """
+    problems = []
+    for path in paths:
+        path = Path(path)
+        text = path.read_text(encoding="utf-8")
+        if "<text" in text.lower():
+            problems.append(f"{path.name}: contiene <text>")
+        try:
+            root = ET.fromstring(text)
+        except ET.ParseError as exc:
+            problems.append(f"{path.name}: XML inválido: {exc}")
+            continue
+        if root.tag != f"{{{NS}}}svg":
+            problems.append(f"{path.name}: raíz {root.tag}")
+        for attr, expected in (
+            ("width", "975"),
+            ("height", "260"),
+            ("viewBox", "0 0 975 260"),
+        ):
+            got = root.get(attr)
+            if got != expected:
+                problems.append(f"{path.name}: {attr}={got!r}, se esperaba {expected!r}")
+        if root.get("x") is not None or root.get("y") is not None:
+            problems.append(f"{path.name}: la raíz no debe llevar x ni y")
+        ids = [el.get("id") for el in root.iter() if el.get("id") is not None]
+        duplicated = sorted({item for item in ids if ids.count(item) > 1})
+        if duplicated:
+            problems.append(f"{path.name}: ids duplicados {duplicated}")
+        known = set(ids)
+        refs = set(re.findall(r"""(?:href|xlink:href)\s*=\s*["']#([^"']+)["']""", text))
+        refs.update(re.findall(r"""url\(\s*["']?#([^)"']+)""", text))
+        missing = sorted(ref for ref in refs if ref not in known)
+        if missing:
+            problems.append(f"{path.name}: #ref sin destino {missing}")
+    if problems:
+        raise AssertionError("\n".join(problems))
 
 
 def style_of(svg: str) -> str:
@@ -138,11 +181,16 @@ class DeterminismTest(unittest.TestCase):
 
 
 class ContractTest(unittest.TestCase):
-    def test_placement_constants_are_the_root(self):
+    def test_root_size_and_reference_placement(self):
         self.assertEqual(build.PLACEMENT, (-513.0462, 22, 1147.5, 306))
         self.assertEqual(build.SLOT, (16, 22, 356, 306, 8))
         self.assertEqual(build.opening_tag(), ROOT_TAG)
+        self.assertNotIn(' x="', ROOT_TAG)
+        self.assertNotIn(' y="', ROOT_TAG)
         self.assertEqual(build.LOOP, "6s")
+
+    def test_qa_check_fragments(self):
+        check_fragments(BANNER / name for name in FILES)
 
     def test_bytes_shape(self):
         for name in FILES:
@@ -153,7 +201,7 @@ class ContractTest(unittest.TestCase):
             self.assertTrue(data.endswith(b"\n"), name)
             self.assertFalse(text.startswith("<?xml"), name)
             self.assertNotIn("<?xml", text, name)
-            self.assertLess(len(data), 80_000, name)
+            self.assertLessEqual(len(data), 70_000, name)
             self.assertEqual(text.splitlines()[0], ROOT_TAG, name)
             ET.fromstring(data)
 
@@ -214,6 +262,61 @@ class ContractTest(unittest.TestCase):
             self.assertNotIn("http", bare.lower(), name)
             for comment in re.findall(r"<!--(.*?)-->", svg, re.S):
                 self.assertIsNone(re.search(r"\b20\d{2}\b|\d{4}-\d{2}-\d{2}", comment))
+
+    def test_ids_are_unique_and_internal_refs_resolve(self):
+        """N3: ids únicos, con prefijo esc-, y todo #ref apunta adentro."""
+        xlink_href = "{http://www.w3.org/1999/xlink}href"
+        aria_idrefs = {
+            "aria-activedescendant",
+            "aria-controls",
+            "aria-describedby",
+            "aria-details",
+            "aria-errormessage",
+            "aria-flowto",
+            "aria-labelledby",
+            "aria-owns",
+        }
+        for name in FILES:
+            svg = load(name)
+            ids = []
+            refs = []
+            for el in ET.fromstring(svg).iter():
+                for attr, value in el.attrib.items():
+                    if attr == "id":
+                        ids.append(value)
+                    elif attr in ("href", xlink_href):
+                        self.assertTrue(value.startswith("#"), f"{name} {attr}={value!r}")
+                        refs.append(value[1:])
+                    elif attr in aria_idrefs:
+                        refs.extend(value.split())
+            for match in re.finditer(r"url\(\s*([\"']?)#([^)\"']+)\1\s*\)", svg):
+                refs.append(match.group(2))
+            duplicated = [item for item in ids if ids.count(item) > 1]
+            self.assertEqual(duplicated, [], name)
+            self.assertTrue(ids, name)
+            for item in ids:
+                self.assertTrue(item.startswith("esc-"), item)
+            known = set(ids)
+            self.assertTrue(refs, name)
+            for ref in refs:
+                self.assertIn(ref, known, f"{name} #{ref}")
+
+    def test_fragment_is_the_full_scene(self):
+        """N8: viewBox del banner entero. build.py no recorta al SLOT."""
+        for name in FILES:
+            svg = load(name)
+            self.assertEqual(svg.splitlines()[0], ROOT_TAG)
+            root = ET.fromstring(svg)
+            self.assertEqual(root.get("width"), "975")
+            self.assertEqual(root.get("height"), "260")
+            self.assertEqual(root.get("viewBox"), "0 0 975 260")
+            self.assertIsNone(root.get("x"))
+            self.assertIsNone(root.get("y"))
+            self.assertNotIn("<clipPath", svg)
+            self.assertNotIn("clip-path=", svg)
+            placed = [float(n) for n in re.findall(r"translate\((-?\d+(?:\.\d+)?)", svg)]
+            self.assertGreater(max(placed), 900, name)
+            self.assertLess(min(placed), 100, name)
 
     def test_animation_budget_and_reduced_motion(self):
         for name in FILES:
