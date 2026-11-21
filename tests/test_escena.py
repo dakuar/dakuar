@@ -168,16 +168,20 @@ class DeterminismTest(unittest.TestCase):
             self.assertEqual(build.render(theme), build.render(theme))
 
     def test_out_does_not_rewrite_the_legacy_banners(self):
+        names = ("banner-light.svg", "banner-dark.svg")
         legacy = {
-            name: (BANNER / name).read_bytes()
-            for name in ("banner-light.svg", "banner-dark.svg")
+            name: (BANNER / name).read_bytes() for name in names if (BANNER / name).is_file()
         }
         with tempfile.TemporaryDirectory() as tmp:
             run_build(Path(tmp))
             written = sorted(path.name for path in Path(tmp).iterdir())
         self.assertEqual(written, sorted(FILES))
-        for name, data in legacy.items():
-            self.assertEqual((BANNER / name).read_bytes(), data, name)
+        for name in names:
+            path = BANNER / name
+            if name in legacy:
+                self.assertEqual(path.read_bytes(), legacy[name], name)
+            else:
+                self.assertFalse(path.exists(), name)
 
 
 class ContractTest(unittest.TestCase):

@@ -7,10 +7,13 @@ Lee el token de la variable GH_TOKEN o GITHUB_TOKEN. Solo usa la biblioteca est�
 import datetime as dt
 import json
 import os
+import re
 import sys
+import tempfile
 import time
 import urllib.error
 import urllib.request
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from xml.sax.saxutils import escape
 
@@ -27,16 +30,23 @@ WIDTH = 58
 STATS_LEFT = 31
 STATS_RIGHT = 24
 
-# Medidas en píxeles. Los valores de ART_* son múltiplos de DOT_PITCH.
+# Medidas en píxeles.
 CHAR_W = 9.6
 LINE_H = 20
 TEXT_X = 390
 TEXT_Y = 45
 SVG_W = 975
-ART_X = 20
-ART_Y = 25
-ART_W = 340
-DOT_PITCH = 5
+# Nested <svg> on the 975×350 card: x, y, width, height.
+# Same numbers as banner/build.py PLACEMENT. This file does not import it.
+PLACEMENT = (-513.0462, 22, 1147.5, 306)
+# Clip that keeps the scene left of the text: x, y, width, height, rx.
+# Same numbers as banner/build.py SLOT.
+SLOT = (16, 22, 356, 306, 8)
+TITLE = (
+    "Torre de la Catedral de Panamá Viejo en arte ASCII con un gato que toma café, "
+    "junto a la ficha de dakuar con formato de neofetch: enfoque, web, correo, "
+    "lenguajes, ML y actividad en GitHub."
+)
 
 THEMES = {
     "dark_mode.svg": {
@@ -47,7 +57,7 @@ THEMES = {
         "cc": "#616e7f",
         "add": "#3fb950",
         "del": "#f85149",
-        "art": ["#d21034", "#ffffff", "#005293"],
+        "scene": "banner/escena-oscuro.svg",
     },
     "light_mode.svg": {
         "bg": "#f6f8fa",
@@ -57,8 +67,7 @@ THEMES = {
         "cc": "#a8b3c1",
         "add": "#1a7f37",
         "del": "#cf222e",
-        # El blanco de la bandera no se ve sobre el fondo claro. Este tema usa un gris.
-        "art": ["#d21034", "#c5ccd6", "#005293"],
+        "scene": "banner/escena-claro.svg",
     },
 }
 
@@ -223,44 +232,109 @@ def build_lines(profile, stats):
     return lines + [None, rule("- GitHub Stats")] + stats_lines(stats)
 
 
+def die(message):
+    print(message, file=sys.stderr)
+    sys.exit(1)
+
+
+def place_scene(text):
+    """Rewrite only the root opening tag. The rest of the file stays as text."""
+    start = text.find("<svg")
+    end = text.find(">", start) if start >= 0 else -1
+    if start < 0 or end < 0:
+        die("El fragmento no tiene raíz svg.")
+    tag = re.sub(r'\s+(?:x|y|width|height)="[^"]*"', "", text[start : end + 1])
+    x, y, width, height = PLACEMENT
+    tag = "<svg" + f' x="{x}" y="{y}" width="{width}" height="{height}"' + tag[len("<svg") :]
+    return text[:start] + tag + text[end + 1 :]
+
+
+def read_scene(path):
+    if not path.is_file():
+        die(f"Falta el fragmento de la escena: {path}")
+    text = path.read_text(encoding="utf-8")
+    if text.startswith("\ufeff"):
+        text = text[1:]
+    lead = text.lstrip()
+    if lead.startswith("<?xml"):
+        end = lead.find("?>")
+        if end < 0:
+            die(f"XML inválido en {path}")
+        text = lead[end + 2 :].lstrip()
+    try:
+        root = ET.fromstring(text)
+    except ET.ParseError as error:
+        die(f"XML inválido en {path}: {error}")
+    if root.tag.rsplit("}", 1)[-1] != "svg" or root.get("viewBox") != "0 0 975 260":
+        die(f"El fragmento {path} no es un svg con viewBox 0 0 975 260.")
+    return place_scene(text)
+
+
+def text_fit(text, font_size=16):
+    # CHAR_W is the advance of DejaVu Sans Mono at 16px. textLength keeps the line whole.
+    length = round(len(text) * CHAR_W * font_size / 16)
+    return f' textLength="{length}" lengthAdjust="spacing"'
+
+
 def render(lines, theme, stamp):
     height = TEXT_Y + len(lines) * LINE_H + 25
-    art_h = height - 2 * ART_Y
     text_w = round(WIDTH * CHAR_W)
+    scene = read_scene(ROOT / theme["scene"])
+    sx, sy, sw, sh, sr = SLOT
     out = [
         f'<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="{SVG_W}" height="{height}" '
-        f'viewBox="0 0 {SVG_W} {height}" font-family="ui-monospace,SFMono-Regular,Consolas,\'Liberation Mono\',Menlo,monospace" font-size="16">',
+        f'viewBox="0 0 {SVG_W} {height}" role="img" aria-labelledby="card-title" '
+        f'font-family="ui-monospace,SFMono-Regular,Consolas,\'Liberation Mono\',Menlo,monospace" font-size="16">',
+        f"<title id=\"card-title\">{escape(TITLE)}</title>",
         "<style>"
         f"text{{white-space:pre;fill:{theme['text']}}}"
         + "".join(f".{name}{{fill:{theme[name]}}}" for name in ("key", "value", "cc", "add", "del"))
         + "</style>",
         "<defs>",
-        '<linearGradient id="fade" x1="0" y1="0" x2="0.35" y2="1">'
-        + "".join(
-            f'<stop offset="{offset}" stop-color="{color}"/>'
-            for offset, color in zip(("0", "0.45", "1"), theme["art"])
-        )
-        + "</linearGradient>",
-        f'<pattern id="dots" width="{DOT_PITCH}" height="{DOT_PITCH}" patternUnits="userSpaceOnUse">'
-        f'<circle cx="{DOT_PITCH / 2}" cy="{DOT_PITCH / 2}" r="1.5" fill="#fff"/></pattern>',
-        f'<mask id="grid"><rect x="{ART_X}" y="{ART_Y}" width="{ART_W}" height="{art_h}" fill="url(#dots)"/></mask>',
+        f'<clipPath id="slot"><rect x="{sx}" y="{sy}" width="{sw}" height="{sh}" rx="{sr}"/></clipPath>',
         "</defs>",
         f'<rect width="{SVG_W}" height="{height}" rx="15" fill="{theme["bg"]}"/>',
-        f'<rect x="{ART_X}" y="{ART_Y}" width="{ART_W}" height="{art_h}" fill="url(#fade)" mask="url(#grid)"/>',
+        '<g clip-path="url(#slot)">',
+        scene.rstrip("\n"),
+        "</g>",
     ]
     for index, line in enumerate(lines):
         if line is None:
             continue
         # textLength fija el ancho de la línea. Así el borde derecho queda alineado con cualquier fuente.
-        full = sum(len(text) for _, text in line) == WIDTH
-        fit = f' textLength="{text_w}" lengthAdjust="spacing"' if full else ""
-        spans = "".join(f'<tspan class="{cls}">{escape(text)}</tspan>' for cls, text in line)
-        out.append(f'<text x="{TEXT_X}" y="{TEXT_Y + index * LINE_H}"{fit}>{spans}</text>')
+        content = "".join(part for _, part in line)
+        spans = "".join(f'<tspan class="{cls}">{escape(part)}</tspan>' for cls, part in line)
+        out.append(
+            f'<text x="{TEXT_X}" y="{TEXT_Y + index * LINE_H}"{text_fit(content)}>{spans}</text>'
+        )
     out.append(
-        f'<text x="{TEXT_X + text_w}" y="{height - 10}" font-size="10" text-anchor="end" class="cc">{escape(stamp)}</text>'
+        f'<text x="{TEXT_X + text_w}" y="{height - 10}" font-size="10" text-anchor="end" class="cc"'
+        f'{text_fit(stamp, 10)}>{escape(stamp)}</text>'
     )
     out.append("</svg>")
     return "\n".join(out) + "\n"
+
+
+def write_cards(cards):
+    """Write every card to a temp file, then replace both. A failure before that writes nothing."""
+    temps = []
+    try:
+        for path, text in cards:
+            fd, name = tempfile.mkstemp(dir=path.parent, prefix=f".{path.name}.", suffix=".tmp")
+            with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as handle:
+                handle.write(text)
+                handle.flush()
+                os.fsync(handle.fileno())
+            temps.append((path, name))
+        for path, name in temps:
+            os.replace(name, path)
+    except BaseException:
+        for _path, name in temps:
+            try:
+                os.unlink(name)
+            except OSError:
+                pass
+        raise
 
 
 def main():
@@ -276,8 +350,8 @@ def main():
     stats = fetch_stats(profile["login"], token)
     lines = build_lines(profile, stats)
     stamp = f"Updated {now:%b} {now.day}, {now.year} {now:%H:%M} UTC"
-    for filename, theme in THEMES.items():
-        (ROOT / filename).write_text(render(lines, theme, stamp), encoding="utf-8", newline="\n")
+    cards = [(ROOT / filename, render(lines, theme, stamp)) for filename, theme in THEMES.items()]
+    write_cards(cards)
     print(json.dumps(stats))
     print(f"graphql requests: {GRAPHQL_REQUESTS}")
 
